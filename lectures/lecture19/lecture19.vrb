@@ -1,0 +1,14 @@
+\frametitle{AUC}
+\begin{itemize}
+\item Another popular classification metric is the \textbf{area under the ROC curve (AUC)}.
+\vspace{5pt}
+\item The closer the AUC is to 1 the better the model performs at classification.  While a model that performs no better than random guessing would have an AUC close to 0.5.
+\vspace{5pt}
+\item One reason the AUC is such a popular metric is because it does not depend on a probability threshold.
+\vspace{5pt}
+\item For the election data, the logistic regression model has an AUC that is close to 1.  We can compute the AUC using the \texttt{pROC} package:
+\begin{verbatim}
+> auc(roc_obj)
+Area under the curve: 0.9876
+\end{verbatim}
+\end{itemize}

@@ -1,0 +1,267 @@
+\documentclass[11pt, fleqn]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+
+% some manual commands for using regular font in equations
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\se}{\textrm{se}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\begin{center}
+\textbf{Lecture 10: Properties of Least Squares Estimates}\\
+\textbf{STAT 632, Spring 2020}\\
+\hrulefill
+\end{center}
+
+\textbf{Preliminaries}: Let $a$ and $b$ be constants, and $X$ a random variable.   
+\begin{align*}
+\E(aX + b) = \\
+\Var(aX + b) = \\
+\end{align*}
+
+\textbf{Random Vectors}\\
+Let $X_1, X_2, \cdots, X_n$ be random variables.  An $n \times 1$ random vector is given by\footnote{Note that the $\bm{X}$ here is different than the $n \times (p+1)$ model matrix in regression.}
+\[
+\bm{X} = 
+\begin{pmatrix}
+X_1 \\
+X_2 \\
+\vdots\\
+X_n
+\end{pmatrix}
+\]
+
+The \textbf{variance-covariance} matrix of $\bm{X}$ is the $n \times n$ symmetric matrix
+
+\[
+\Var(\bm{X}) =
+\begin{pmatrix}
+\Var(X_1) & \Cov(X_1, X_2) & \cdots & \Cov(X_1, X_n)\\
+\Cov(X_2, X_1) & \Var(X_2) & \cdots & \Cov(X_2,X_n)\\
+\vdots\\ 
+\Cov(X_n, X_1) & \Cov(X_n, X_2) &  \cdots & \Var(X_n)
+\end{pmatrix}
+\]
+
+Note that $\Cov(X_i, X_i) = Var(X_i)$.\\
+
+\textbf{Properties of Expectation and Variance for Random Vectors}\\
+Let $\bm{A}$ be an $m \times n$ matrix of constants, $\bm{b}$ an $m \times 1$ vector of constants, and $\bm{X}$ an $n \times 1$ random vector, then
+\begin{align*}
+\E(\bm{AX} + \bm{b}) = \bm{A} \E(\bm{X}) + \bm{b}\\
+\Var(\bm{AX} + \bm{b}) = \bm{A} \Var(\bm{X}) \bm{A'}\\
+\end{align*}
+\clearpage
+
+\textbf{Properties of the Multiple Linear Regression Model}\\
+$$\bm{Y} = \bm{X}\bm{\beta} + \bm{e}$$
+\begin{itemize}
+\item $\bm{Y}$ is an $n \times 1$ response vector
+\item $\bm{X}$ is an $n \times (p+1)$ design matrix for the predictors
+\item $\bm{\beta}$  is a $(p+1) \times 1$ vector of regression parameters
+\item $\bm{e}$ is an $n \times 1$ vector of random errors; assuming $e_i \sim N(0, \sigma^2)$, independently
+\end{itemize}
+The variance-covariance matrix for the random errors $\bm{e}$ is given by\\
+\[
+\Var(\bm{e}) = 
+\begin{pmatrix}
+\sigma^2 & 0 & \cdots & 0\\
+0 & \sigma^2 & \cdots & 0\\
+\vdots\\
+0 & 0 & \cdots & \sigma^2
+\end{pmatrix}
+= \sigma^2 \bm{I}_n
+\]\\
+which follows since $\Var(e_i) = \sigma^2$, and $\Cov(e_i, e_j) = 0$ when $i \neq j$ (by independence).\\
+
+Use the properties of expectation and variance for random vectors to find $\E(\bm{Y})$, $\Var(\bm{Y})$, and the distribution of $\bm{Y}$.\\
+\vspace{5cm}
+
+\textbf{Properties of Least Squares Estimates}\\
+Recall that the least squares estimates of the population parameters $\bm{\beta}$ is given by the $(p+1) \times 1$ vector
+\begin{align*}
+\bm{\hat{\beta}} = (\bm{X'X})^{-1} \bm{X'Y}
+\end{align*}
+The estimator $\bm{\hat{\beta}}$ is a random vector since it varies from sample to sample.\\
+\clearpage
+
+Show that $E(\bm{\hat{\beta}}) = \bm{\beta}$, the least squares estimates are unbiased.\\
+\vspace{5cm}
+
+Show that that variance-covariance matrix for the least squares estimates is given by $\Var(\bm{\hat{\beta}}) = \sigma^2 (\bm{X'X})^{-1}$\\
+\vspace{7cm}
+
+The variance of a particular estimate is given by the diagonal entry:
+\begin{align*}
+\Var(\hat{\beta}_{j}) = \sigma^2 (\bm{X'X})^{-1}_{j+1, j+1} 
+\quad \text{for } j=0,\cdots,p
+\end{align*}
+This is how standard errors are calculated when constructing confidence intervals for the parameters.  For example, a $1-\alpha$ confidence interval for $\hat{\beta}_j$ is given by
+\begin{align*}
+\hat{\beta}_j \pm t_{\alpha /2; n-p-1} \se(\hat{\beta}_j)
+\end{align*}
+where $\se(\hat{\beta}_j) = \hat{\sigma} \sqrt{(\bm{X'X})^{-1}_{j+1,j+1}}$, and $\hat{\sigma} = \sqrt{\text{RSS} / (n-p-1)}$
+
+\clearpage
+
+Using the menu pricing data set (lecture 7), the code below demonstrates how to manually compute the least squares estimates, variance-covariance matrix, and standard errors.  The results are compared to the output from \texttt{lm()}.  Note that it is always better to use \texttt{lm()} than to do the computations manually.  I am just showing this to verify all the formulas.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{nyc} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://ericwfox.github.io/data/nyc.csv"}\hlstd{)}
+
+\hlcom{# response vector}
+\hlstd{Y} \hlkwb{<-} \hlkwd{matrix}\hlstd{(nyc}\hlopt{$}\hlstd{Price,} \hlkwc{ncol}\hlstd{=}\hlnum{1}\hlstd{)}
+
+\hlcom{# design matrix}
+\hlstd{X} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwc{Intercept} \hlstd{=} \hlnum{1}\hlstd{, nyc[,}\hlkwd{c}\hlstd{(}\hlstr{'Food'}\hlstd{,} \hlstr{'Decor'}\hlstd{,} \hlstr{'East'}\hlstd{)])}
+\hlstd{X} \hlkwb{<-} \hlkwd{as.matrix}\hlstd{(X)}
+\hlkwd{rownames}\hlstd{(X)} \hlkwb{<-} \hlstd{nyc}\hlopt{$}\hlstd{Restaurant}
+\hlstd{X[}\hlnum{1}\hlopt{:}\hlnum{5}\hlstd{,]}
+\end{alltt}
+\begin{verbatim}
+##                     Intercept Food Decor East
+## Daniella Ristorante         1   22    18    0
+## Tello's Ristorante          1   20    19    0
+## Biricchino                  1   21    13    0
+## Bottino                     1   20    20    0
+## Da Umberto                  1   24    19    0
+\end{verbatim}
+\begin{alltt}
+\hlcom{# manually calculate least squares estimates}
+\hlstd{betaHat} \hlkwb{<-} \hlkwd{solve}\hlstd{(}\hlkwd{t}\hlstd{(X)} \hlopt{%*%} \hlstd{X)} \hlopt{%*%} \hlkwd{t}\hlstd{(X)} \hlopt{%*%} \hlstd{Y}
+\hlstd{betaHat}
+\end{alltt}
+\begin{verbatim}
+##                 [,1]
+## Intercept -24.026880
+## Food        1.536346
+## Decor       1.909373
+## East        2.067013
+\end{verbatim}
+\begin{alltt}
+\hlcom{# compare with lm()}
+\hlstd{lm1} \hlkwb{<-} \hlkwd{lm}\hlstd{(Price} \hlopt{~} \hlstd{Food} \hlopt{+} \hlstd{Decor} \hlopt{+} \hlstd{East,} \hlkwc{data}\hlstd{=nyc)}
+\hlkwd{coef}\hlstd{(lm1)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)        Food       Decor        East 
+##  -24.026880    1.536346    1.909373    2.067013
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\clearpage
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# manually calculate standard errors for least squares estimates}
+\hlstd{n} \hlkwb{<-} \hlkwd{nrow}\hlstd{(nyc)}
+\hlstd{p} \hlkwb{<-} \hlnum{3}
+\hlstd{resid} \hlkwb{<-} \hlkwd{as.numeric}\hlstd{(Y} \hlopt{-} \hlstd{X} \hlopt{%*%} \hlstd{betaHat)}
+\hlstd{sigmaHat2} \hlkwb{<-} \hlkwd{sum}\hlstd{(resid}\hlopt{^}\hlnum{2}\hlstd{)} \hlopt{/} \hlstd{(n}\hlopt{-}\hlstd{p}\hlopt{-}\hlnum{1}\hlstd{)}
+\hlstd{covBetaHat} \hlkwb{<-} \hlstd{sigmaHat2} \hlopt{*} \hlkwd{solve}\hlstd{(}\hlkwd{t}\hlstd{(X)} \hlopt{%*%} \hlstd{X)}
+\hlstd{covBetaHat}
+\end{alltt}
+\begin{verbatim}
+##            Intercept        Food       Decor        East
+## Intercept 21.8344883 -0.94964667 -0.12475347  0.19880619
+## Food      -0.9496467  0.06926176 -0.02530816 -0.04612459
+## Decor     -0.1247535 -0.02530816  0.03610588  0.01149201
+## East       0.1988062 -0.04612459  0.01149201  0.86827717
+\end{verbatim}
+\begin{alltt}
+\hlstd{seBetaHat} \hlkwb{<-} \hlkwd{sqrt}\hlstd{(}\hlkwd{diag}\hlstd{(covBetaHat))}
+\hlstd{seBetaHat}
+\end{alltt}
+\begin{verbatim}
+## Intercept      Food     Decor      East 
+## 4.6727388 0.2631763 0.1900155 0.9318139
+\end{verbatim}
+\begin{alltt}
+\hlcom{# compare with lm()}
+\hlkwd{summary}\hlstd{(lm1)}\hlopt{$}\hlstd{coef}
+\end{alltt}
+\begin{verbatim}
+##               Estimate Std. Error   t value     Pr(>|t|)
+## (Intercept) -24.026880  4.6727388 -5.141926 7.669997e-07
+## Food          1.536346  0.2631763  5.837705 2.758775e-08
+## Decor         1.909373  0.1900155 10.048513 8.201940e-19
+## East          2.067013  0.9318139  2.218268 2.791009e-02
+\end{verbatim}
+\begin{alltt}
+\hlkwd{vcov}\hlstd{(lm1)}
+\end{alltt}
+\begin{verbatim}
+##             (Intercept)        Food       Decor        East
+## (Intercept)  21.8344883 -0.94964667 -0.12475347  0.19880619
+## Food         -0.9496467  0.06926176 -0.02530816 -0.04612459
+## Decor        -0.1247535 -0.02530816  0.03610588  0.01149201
+## East          0.1988062 -0.04612459  0.01149201  0.86827717
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\end{document}

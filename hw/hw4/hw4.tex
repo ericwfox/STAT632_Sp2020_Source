@@ -1,0 +1,108 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+\newcommand{\Var}{\textrm{Var}}
+\newcommand{\Cov}{\textrm{Cov}}
+\newcommand{\E}{\textrm{E}}
+\newcommand{\se}{\textrm{se}}
+\newcommand{\SXX}{\textrm{SXX}}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 4}\\
+Due: Tuesday, March 17\\
+
+\textbf{Directions}:  Please submit your completed assignment to Blackboard.  For the concept questions, your solutions may be typed (using LaTeX or equation editor in Word), or handwritten and then scanned.  For the data analysis questions, you must type your solutions, and submit in PDF, HTML, or Word format.  Include all R code in your answers to each data analysis question.\\
+
+\textbf{Reading}: Sections 5.1 and 5.2 from \emph{A Modern Approach to Regression}.\\
+
+\textbf{Exercise 1}.\footnote{From \emph{A Modern Approach to Regression with R}, Chapter 6, Exercise 1, with slight modifications}  The multiple linear regression model can be written as $\bm{Y} = \bm{X\beta} + \bm{e}$, where\\ $\Var(\bm{e}) = \sigma^2 \bm{I}$ and $\bm{I}$ is the $n \times n$ identity matrix.  The fitted values are given by 
+$$\bm{\hat{Y}} = \bm{X \hat{\beta}} = \bm{X(X'X)}^{-1}\bm{X'Y} = \bm{HY}$$
+where $\bm{H} = \bm{X(X'X)}^{-1}\bm{X}'$  
+\begin{enumerate}[(a)]
+\item Show that $\bm{H H'} = \bm{HH} = \bm{H}$.  Note that a matrix that has this property is called \textbf{idempotent}.  
+\item Show that $\E(\hat{\bm{Y}}) = \bm{X\beta}$
+\item Show that $\Var(\hat{\bm{Y}}) = \sigma^2 \bm{H}$\\
+\end{enumerate}
+
+\textbf{Exercise 2}.  In lecture 10 we showed the variance-covariance matrix for the $(p+1) \times 1$ vector, $\bm{\hat{\beta}}$,  of least squares estimates is given by $\Var(\bm{\hat{\beta}}) = \sigma^2 (\bm{X'X})^{-1}$.  Derive the $2 \times 2$ variance-covaraiance matrix for least squares estimates, $\bm{\hat{\beta}} = \begin{pmatrix} \hat{\beta}_0 & \hat{\beta}_1 \end{pmatrix}'$, for simple linear regression:
+\[
+\Var(\bm{\hat{\beta}}) = 
+\begin{pmatrix}
+\Var(\hat{\beta}_0) & \Cov(\hat{\beta}_0, \hat{\beta}_1)\\
+\Cov(\hat{\beta}_1, \hat{\beta}_0) & \Var(\hat{\beta}_1)
+\end{pmatrix}
+\]
+Additionally, use your result to verify that $\Var(\hat{\beta}_0) = \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{SXX} \right)$ and $\Var(\hat{\beta}_1) = \sigma^2 / \SXX$, where \SXX$=\sum_{i=1}^n (x_i - \bar{x})^2$. [Hint: it might be useful to use the identity $\sum_{i=1}^n (x_i - \bar{x})^2 = \sum x_i^2 - n \bar{x}^2$]\\
+\vspace{11pt}
+
+\textbf{Exercise 3}.  For this exercise use the \texttt{Boston} data set from the \texttt{MASS} package (you can read about this data set in the help menu).  Consider the multiple linear regression model with \texttt{medv} as the response, and \texttt{dis}, \texttt{rm}, \texttt{tax} and \texttt{chas} as predictor variables.
+\begin{enumerate}[(a)]
+\item In R, compute the vector of least squares estimates $\bm{\hat{\beta}} = \bm{(X'X)}^{-1}\bm{X'Y}$.  Then verify that the results are the same as the parameter estimates provided by the \texttt{lm()} function.
+\item In R, compute the variance-covariance matrix $\Var(\bm{\hat{\beta}}) = \sigma^2 (\bm{X'X})^{-1}$ (plug in\\ $\hat{\sigma}^2 = \text{RSS} / (n-p-1)$ as the estimate for $\sigma^2$).  Then verify that the square root of the diagonal entries of this matrix are the same as the standard errors provided by the \texttt{lm()} function.  
+\end{enumerate}
+
+
+
+
+
+\end{document}

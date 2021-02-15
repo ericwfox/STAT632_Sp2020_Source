@@ -1,0 +1,15 @@
+\frametitle{Example}
+\begin{verbatim}
+> confint(lm1)
+                  2.5 %     97.5 %
+(Intercept) -88.6361527 -33.270576
+hgt           0.6269509   0.938186
+
+# manual calculation CI for slope
+> n <- nrow(bdims_males)
+> tcrit <- qt(0.975, df=n-2)
+> 0.78257 - tcrit * 0.07901
+[1] 0.6269445
+> 0.78257 + tcrit * 0.07901
+[1] 0.9381955
+\end{verbatim}

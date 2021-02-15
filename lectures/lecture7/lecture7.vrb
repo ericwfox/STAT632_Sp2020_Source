@@ -1,0 +1,13 @@
+\frametitle{MLR Example}
+The final regression model is:\\
+$$\widehat{\texttt{Price}} = -24.03 + 1.54 \texttt{Food} + 1.91 \texttt{Decor} + 2.07\texttt{East}$$ \\
+\vspace{10pt}
+For example, we can use the model to predict \texttt{Price} when \texttt{Food=20}, \texttt{Decor=16} and \texttt{East=1}:
+$$\widehat{\texttt{Price}} = -24.03 + 1.54(20) + 1.91(16) + 2.07(1) = 39.4$$
+We can also use R to make this prediction and to calculate a 95\% prediction interval.
+\begin{verbatim}
+> new_x <- data.frame(Food = 20, Decor = 16, East = 1)
+> predict(lm2, newdata = new_x, interval="prediction")
+       fit      lwr      upr
+1 39.31701 27.95384 50.68019
+\end{verbatim}

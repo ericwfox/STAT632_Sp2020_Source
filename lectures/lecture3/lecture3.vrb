@@ -1,0 +1,15 @@
+\frametitle{Comparing PIs and CIs}
+\begin{verbatim}
+> new_x <- data.frame(Girth = 17)
+> predict(lm1, newdata = new_x, interval="confidence")
+      fit      lwr      upr
+1 49.1761 46.71799 51.63421
+> predict(lm1, newdata = new_x, interval="prediction")
+      fit      lwr      upr
+1 49.1761 40.13908 58.21312
+\end{verbatim}
+
+\begin{itemize}
+\item The point predictions for the mean response and an actual value of the response are the same ($\hat{y}^* = 49.176$ when $x^*=17$).
+\item The prediction interval for the actual response is substantially wider than the confidence interval for the mean response.
+\end{itemize}

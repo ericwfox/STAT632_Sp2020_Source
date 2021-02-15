@@ -1,0 +1,26 @@
+HW1 rubric
+Ex1 - 1 point (0.2 each)
+Ex2a - 0.5 points
+Ex3 - 1 point (0.25 each)
+
+HW1 common responses
+
+Graded exercises 1, 2a, 3
+1b) This is a test for the slope:  H0: beta1 = 0 and HA: beta1 != 0
+
+1b) State the conclusion of the test: Since the p-value < 0.001, we reject H0.
+
+1c) p-value = 2 * pt(-2.699, df=48) = 0.00957
+
+1d) t = 2.2606 / 0.0981 = 23.04
+
+1e) Calculation error.  The CI is (2.06, 2.46).  See solutions.
+
+2a) Take derivative R'(beta), and then solve R'(beta) = 0.  See solutions.
+
+3c) Make prediction when LastWeek=400000:
+new_x <- data.frame(LastWeek = 400000)
+predict(lm1, newdata=new_x, interval="prediction")
+$450,000 is not a feasible value since it is not inside the prediction interval
+
+3d) See solutions.  Compare least squares line to 1-1 line.

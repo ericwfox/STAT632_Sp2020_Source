@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+\newenvironment{myitemize}
+{ \begin{itemize}
+    \setlength{\itemsep}{5pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 7}\\
+Due: Tuesday, May 5\\
+
+\textbf{Reading}: Section 4.1--4.3 (pp. 127--137) from \emph{An Introduction to Statistical Learning}\\
+
+The following exercises will use a data set that contains results for US counties from the 2012/16 US presidential elections.  Demographic information on counties from the US Census is also provided.\footnote{Source: \scriptsize \url{https://www.kaggle.com/joelwilson/2012-2016-presidential-elections\#county\_facts\_dictionary.csv}}\\
+
+To load the data into R run the following command:
+<<>>=
+county_votes16 <- read.csv("https://ericwfox.github.io/data/county_votes16.csv")
+@
+
+Descriptions of relevant variables:
+\begin{myitemize}
+\item \texttt{trump\_win}: indicator variable (1=Trump won, 0=Trump lost) 
+\item \texttt{obama\_pctvotes}: percent of votes cast for Obama in 2012
+\item \texttt{pct\_pop65}: percent over 65 years
+\item \texttt{pct\_black}: percent black
+\item \texttt{pct\_white}: percent white
+\item \texttt{pct\_hispanic}: percent hispanic
+\item \texttt{pct\_asian}: percent asian
+\item \texttt{highschool}: percent high school graduate or higher
+\item \texttt{bachelors}: percent with Bachelor's degree or higher
+\item \texttt{income}: per capita income in the past 12 months (in thousands of dollars)\\
+\end{myitemize}
+
+\textbf{Exercise 1}
+\begin{enumerate}[(a)]
+\item Fit a simple logistic regression model with \texttt{trump\_win} as the binary response variable, and \texttt{obama\_pctvotes} as the predictor.  Use \texttt{summary()} to print the results, and write down the equation for the estimated logistic regression model.  Use this logistic regression model to answer the remaining questions.
+\item Make a scatter plot of the data (i.e., plot the observed zeros and ones on the $y$-axis and \texttt{obama\_pctvotes} on the $x$-axis) and superimpose the fitted logistic curve for the estimated probability of Trump winning.  Use \texttt{ggplot2} to make the plot.
+% geom_jitter
+\item Use the logistic regression model to estimate the probability of Trump winning in a county with $\texttt{obama\_pctvotes} = 40, 50,$ and $60$.  
+\item Provide an interpretation of the estimated coefficient $\hat{\beta}_1$ for \texttt{obama\_pctvotes}.
+\end{enumerate}
+\clearpage
+
+\textbf{Exercise 2}
+\begin{enumerate}[(a)]
+\item Fit a multiple logistic regression model with \texttt{trump\_win} as the response, and the following 8 demographic variables as predictors: \texttt{pct\_pop65}, \texttt{pct\_black}, \texttt{pct\_white}, \texttt{pct\_hispanic}, \texttt{pct\_asian}, \texttt{highschool}, \texttt{bachelors}, and \texttt{income}.  Use \texttt{summary()} to print the results.
+\item Remove any predictors that are not significant from the model fit in (a).  
+\item Provide an interpretation of the signs of the estimated coefficients.\\
+\end{enumerate}
+
+\hrulefill
+\vspace{11pt}
+
+Additional practice on logistic regression (not to be collected).\\
+
+\textbf{Practice Problem 1}.\footnote{From \emph{An Introduction to Statistical Learning}, Ch.~4, Exercise 6}  Suppose we collect data for a group of students in a statistics class with variables $X_1 = $ hours studied, $X_2 = $ undergrad GPA, and $Y = $ receive an A.  We fit a logistic regression model and produce estimated coefficients, $\hat{\beta}_0 = -6$, $\hat{\beta}_1 = 0.05$, and $\hat{\beta}_2 = 1$.
+\begin{enumerate}[(a)]
+\item Estimate the probability that a student who studies for 40 hours and has an undergrad GPA of 3.5 gets an A in the class.
+\item How many hours would a student with a 3.5 GPA need to study to have a 50\% chance of getting an A in the class?\\
+\end{enumerate}
+
+\textbf{Practice Problem 2}. The parameters $\beta_0$ and $\beta_1$ for the simple logistic regression model can be estimated using the method of maximum likelihood.  There are actually no closed form solutions for the parameter estimates, so iterative techniques are used to perform the optimization (e.g., gradient descent).  The end of lecture 17 discusses how the likelihood function for logistic regression can be expressed as  
+\begin{align*}
+L(\beta_0, \beta_1) = \prod_{i=1}^n p_i^{y_i} (1-p_i)^{1-y_i}
+\end{align*}
+where $p_i = \frac{e^{\beta_0 + \beta_1 x_i}}{1 + e^{\beta_0 + \beta_1 x_i}}$ for $i=1, \cdots, n$.
+\smallskip
+\begin{enumerate}[(a)]
+\item Show that the log-likelihood function can be expressed as\\ $l(\beta_0, \beta_1) = \log(L(\beta_0, \beta_1))
+= \sum_{i=1}^n [ y_i \log(p_i) + (1-y_i) \log(1-p_i)]$
+\smallskip
+\item Show that $\frac{\partial l(\beta_0, \beta_1)}{\partial \beta_0} = \sum_{i=1}^n (y_i - p_i)$ and $\frac{\partial l(\beta_0, \beta_1)}{\partial \beta_1} = \sum_{i=1}^n x_i (y_i - p_i)$.
+\end{enumerate}
+
+
+
+
+
+
+\end{document}

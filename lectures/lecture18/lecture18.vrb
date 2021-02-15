@@ -1,0 +1,20 @@
+\frametitle{Variable Selection: Example}
+We can also use the \texttt{step()} function to implement backwards stepwise selection for logistic regression using the AIC.
+\small
+\begin{verbatim}
+> glm5 <- glm(TrumpWin ~ HS + BA + Adv + Dem.Rep + Income,
+                data=Election16, family = binomial)
+> glm_sel <- step(glm5)
+> summary(glm_sel)
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)
+(Intercept)  1.458e+01  5.308e+00   2.747  0.00601 **
+Dem.Rep     -3.099e-01  1.135e-01  -2.731  0.00632 **
+Income      -2.677e-04  9.866e-05  -2.713  0.00667 **
+
+> AIC(glm5, glm_sel)
+        df      AIC
+glm5     6 31.55431
+glm_sel  3 26.79370
+\end{verbatim}
+\normalsize

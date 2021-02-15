@@ -1,0 +1,12 @@
+The $R^2$ of the reduced model with just 3 predictors (\texttt{Age}, \texttt{Weight}, and \texttt{Ht}) is close to the $R^2$ of the full model with all the strongly correlated predictors.  In fact, the adjusted $R^2$ for the reduced model is slightly higher than the full model.
+\begin{verbatim}
+> summary(lm1)$r.squared
+[1] 0.6865535
+> summary(lm2)$r.squared
+[1] 0.6561654
+
+> summary(lm1)$adj.r.squared
+[1] 0.6000855
+> summary(lm2)$adj.r.squared
+[1] 0.6258271
+\end{verbatim}

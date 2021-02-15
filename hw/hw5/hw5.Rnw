@@ -1,0 +1,59 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+%\usepackage{fullpage}
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 5}\\
+Due: Tuesday, March 24\\
+
+\textbf{Reading}: Chapter 6, pp. 151--162, from \emph{A Modern Approach to Regression}.\\
+
+The Human Development Index (HDI) is an index developed by the United Nations to assess the development of a country.   The HDI is calculated by combining three indicators: life expectancy at birth, average education,  and gross national income per capita.\footnote{\url{http://hdr.undp.org/en/content/human-development-index-hdi}}  The following exercises will investigate the relationship between HDI and other variables on national demographics, connectivity (internet usage), and employment.\footnote{Date obtained from \url{http://hdr.undp.org/en/data}}\\  
+
+To load the data into R run the following command:
+<<eval=F, echo=T>>=
+hdi = read.csv("https://ericwfox.github.io/data/hdi2018.csv")
+@
+Variable descriptions:
+\begin{itemize}
+\item \texttt{hdi\_2018}: HDI for the year 2018
+\item \texttt{median\_age}: Median age (years) in 2015
+\item \texttt{pctpop65}: Percent of population 65 and older in 2018
+\item \texttt{pct\_internet}: Percent of population that uses the internet in 2017-2018
+\item \texttt{pct\_labour}: Percent of country's working-age population that engages actively in the labour market, either by working or looking for work in 2018\\
+\end{itemize} 
+
+%---------------------------------------------------
+\textbf{Exercise 1}
+\begin{enumerate}[(a)]
+\item Fit a multiple linear regression model with \texttt{hdi\_2018} as the response, and  the other four variables as predictors. 
+\item Using the model fit in (a), is there evidence of a relationship between \texttt{hdi\_2018} and at least one of the predictor variables?  Write the null and alternative hypotheses, report the F-test statistic and $p$-value, and state your conclusion.
+\item Using the model fit in (a), which predictor variables are statistically significant according to the individual t-tests?\\
+\item Fit a reduced model with \texttt{median\_age} and \texttt{pct\_internet} as predictors.  Use the \texttt{anova()} function to conduct a partial F-test that compares this reduced model with the full model specified in (a).  Make sure to write the null and alternative hypotheses, report the $p$-value, and state your conclusion.
+\item According to the adjusted-R$^2$, how does the full model in (a) compare with the reduced model in (d)?  Is this consistent with your conclusion for the partial F-test?\\
+% \item Based on the results in (c) and (d), is it appropiate to conclude that \texttt{pctpop65} and \texttt{pct\_labour} are completely unrelated to the \texttt{hdi\_2018} response variable? Explain.\\
+\end{enumerate}
+
+%---------------------------------------------------
+\textbf{Exercise 2}.  For this exercise, consider the regression model with \texttt{hdi\_2018} as the response, and \texttt{median\_age} and \texttt{pct\_internet} as predictors.  
+\begin{enumerate}[(a)]
+\item Make a scatterplot matrix for the three variables.  Describe the associations between the variables in the scatterplot matrix.
+\item Make a plot of the residuals versus fitted values, and a QQ plot of the standardized residuals. 
+\item Make a plot with the leverage values ($h_i$) on the $x$-axis, and standardized residuals ($r_i$) on the $y$-axis.  Identify any points (countries) that have high standardized residuals or leverage.
+\item Based on the  scatterplot matrix and model diagnostics, do the assumptions for MLR appear adequately satisfied?  Can you think of any ways in which the model might be improved to better fit the data?
+\end{enumerate}
+
+
+
+
+
+\end{document}

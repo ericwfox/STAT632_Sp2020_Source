@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+%\usepackage{fullpage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 5}\\
+Due: Tuesday, March 24\\
+
+\textbf{Reading}: Chapter 6, pp. 151--162, from \emph{A Modern Approach to Regression}.\\
+
+The Human Development Index (HDI) is an index developed by the United Nations to assess the development of a country.   The HDI is calculated by combining three indicators: life expectancy at birth, average education,  and gross national income per capita.\footnote{\url{http://hdr.undp.org/en/content/human-development-index-hdi}}  The following exercises will investigate the relationship between HDI and other variables on national demographics, connectivity (internet usage), and employment.\footnote{Date obtained from \url{http://hdr.undp.org/en/data}}\\  
+
+To load the data into R run the following command:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{hdi} \hlkwb{=} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://ericwfox.github.io/data/hdi2018.csv"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Variable descriptions:
+\begin{itemize}
+\item \texttt{hdi\_2018}: HDI for the year 2018
+\item \texttt{median\_age}: Median age (years) in 2015
+\item \texttt{pctpop65}: Percent of population 65 and older in 2018
+\item \texttt{pct\_internet}: Percent of population that uses the internet in 2017-2018
+\item \texttt{pct\_labour}: Percent of country's working-age population that engages actively in the labour market, either by working or looking for work in 2018\\
+\end{itemize} 
+
+%---------------------------------------------------
+\textbf{Exercise 1}
+\begin{enumerate}[(a)]
+\item Fit a multiple linear regression model with \texttt{hdi\_2018} as the response, and  the other four variables as predictors. 
+\item Using the model fit in (a), is there evidence of a relationship between \texttt{hdi\_2018} and at least one of the predictor variables?  Write the null and alternative hypotheses, report the F-test statistic and $p$-value, and state your conclusion.
+\item Using the model fit in (a), which predictor variables are statistically significant according to the individual t-tests?\\
+\item Fit a reduced model with \texttt{median\_age} and \texttt{pct\_internet} as predictors.  Use the \texttt{anova()} function to conduct a partial F-test that compares this reduced model with the full model specified in (a).  Make sure to write the null and alternative hypotheses, report the $p$-value, and state your conclusion.
+\item According to the adjusted-R$^2$, how does the full model in (a) compare with the reduced model in (d)?  Is this consistent with your conclusion for the partial F-test?\\
+% \item Based on the results in (c) and (d), is it appropiate to conclude that \texttt{pctpop65} and \texttt{pct\_labour} are completely unrelated to the \texttt{hdi\_2018} response variable? Explain.\\
+\end{enumerate}
+
+%---------------------------------------------------
+\textbf{Exercise 2}.  For this exercise, consider the regression model with \texttt{hdi\_2018} as the response, and \texttt{median\_age} and \texttt{pct\_internet} as predictors.  
+\begin{enumerate}[(a)]
+\item Make a scatterplot matrix for the three variables.  Describe the associations between the variables in the scatterplot matrix.
+\item Make a plot of the residuals versus fitted values, and a QQ plot of the standardized residuals. 
+\item Make a plot with the leverage values ($h_i$) on the $x$-axis, and standardized residuals ($r_i$) on the $y$-axis.  Identify any points (countries) that have high standardized residuals or leverage.
+\item Based on the  scatterplot matrix and model diagnostics, do the assumptions for MLR appear adequately satisfied?  Can you think of any ways in which the model might be improved to better fit the data?
+\end{enumerate}
+
+
+
+
+
+
+
+\end{document}

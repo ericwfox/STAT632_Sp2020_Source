@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{enumerate}
+\usepackage{hyperref}
+
+\begin{document}
+
+\setlength\parindent{0pt}
+
+\Large \textbf{Lab 1: Simple Linear Regression in R}\\
+\large \textbf{STAT 632, Spring 2020}
+\normalsize
+
+\section{Data Set}
+For this lab we consider a data set called \texttt{fandango} from the R package \texttt{fivethirtyeight}.  The data set contains a sample of movie ratings from Fandango, Rotten Tomatoes, Metacritic, and IMDb.  The data was used for the FiveThirtyEight article \href{https://fivethirtyeight.com/features/fandango-movies-ratings/}{Be Suspicious Of Online Movie Ratings, Especially Fandango’s}.  The article argues that the movie ratings on Fandango tend to be higher than other websites.\\
+
+First, to install the package run the command:
+<<eval=F, echo=T>>=
+install.packages("fivethirtyeight")
+@
+You only need to install a package on your computer once.  Next, to load the contents of the package into RStudio run the command:
+<<warning=F, message=F>>=
+library(fivethirtyeight)
+@
+Note that you need to run the \texttt{library()} command each time you open RStudio and want to use a particular package.  The \texttt{fandango} data set should now be available in RStudio.  Try previewing the first several rows of this data frame:
+<<eval=F>>=
+head(fandango)
+@
+You can also read about this data set in the help menu by entering the command: 
+<<eval=F>>=
+help(fandango)
+@
+
+In this lab, we will use simple linear regression to model the relationship between the variables \texttt{fandango\_ratingvalue} and \texttt{imdb\_norm}.  Note that the IMDb ratings have been normalized between 0 and 5 so that they can be compared directly with Fandango ratings.\\
+
+A good place to start, before actually fitting a model, is to look at some descriptive statistics of the variables.
+<<>>=
+summary(fandango$fandango_ratingvalue)
+summary(fandango$imdb_norm)
+@
+
+\section{Simple Linear Regression Model}
+Use the \texttt{lm()} function to fit a simple linear regression model.  
+<<>>=
+lm1 <- lm(fandango_ratingvalue ~ imdb_norm, data = fandango)
+@
+The function uses the formula notation $y \sim x$, where $y$ is the response variable\\ (\texttt{fandango\_ratingvalue}) and $x$ is the explanatory variable (\texttt{imdb\_norm}).\\
+
+Use the \texttt{summary()} function to print out important information about the linear regression model we just fit.
+<<>>=
+summary(lm1)
+@
+\clearpage
+
+The least squares estimates of the slope and intercept are given in the \texttt{Coefficients} table of the summary output.  The equation of the least squares regression line can therefore be written as
+$$\hat{y} =  1.7239 + 0.62974x$$
+The summary output gives an $R^2 = 0.3604$.  This means that 36.04\% of the variation in fandango ratings can be explained by the IMDb ratings.\\
+
+Next, we can make a scatterplot of our data and superimpose the least squares regression line.  The 1-1 line (i.e., the $y=x$ line) is also plotted for comparison.
+<<fig.width=4, fig.height=4>>=
+plot(fandango_ratingvalue ~ imdb_norm, data = fandango,
+     ylab = "Fandango Rating", xlab="IMDb Rating",
+     xlim=c(2,4.8), ylim = c(2,4.8))
+abline(lm1) # add regression line
+abline(0, 1, lty=2) # add 1-1 line
+@
+
+The scatter plot shows that Fandango movie ratings tend to be higher than IMDb; this agrees with the conclusions from the FiveThirtyEight article.  Specifically, the regression line is above the 1-1 line, indicating that Fandango ratings are higher than IMDb, on average, especially for movies that are rated poorly on IMDb.
+
+\section{Attributes from \texttt{lm} Objects}
+The linear model object we created has various attributes that we can extract by name.     
+<<>>=
+attributes(lm1)
+# extract coefficients (parameter estimates)
+coef(lm1)
+# extract residuals
+head(resid(lm1))
+# extract fitted (predicted) values
+head(predict(lm1))
+# 95% confidence intervals for intercept and slope
+confint(lm1)
+@
+\clearpage
+
+\subsection{Model Diagnostics}
+A useful diagnostic is a plot of the residuals versus the fitted values.  Use the \texttt{predict()} function to extract the fitted values ($\hat{y}_i$); and use the \texttt{resid()} function to extract the residuals ($\hat{e}_i = y_i - \hat{y_i}$).
+<<fig.width=7, fig.height=3>>=
+par(mar=c(4,4,1,1), mfrow=c(1,2)) # adjust margins, and split graphics pane
+# residual plot
+plot(predict(lm1), resid(lm1), xlab="Fitted values", ylab="Residuals")
+abline(h=0)
+# histogram of residuals
+hist(resid(lm1), main="", xlab="Residuals")
+@
+
+The points in the residual plot appear randomly scattered around 0.  There are no outliers, or indications of nonlinearity or nonconstant variance.  The histogram of the residuals also appears normally distributed.  Therefore, the conditions for simple linear regression appear to be well satisfied.\\
+\clearpage
+
+\section{Making Predictions}
+We can use the \texttt{predict()} function to make predictions at new values of the explanatory variable.  Recall, that the least squares regression line for predicting a movie's Fandango rating from the IMDb normalized rating is
+$$\hat{y} =  1.7239 + 0.62974x$$
+For example, the predicted Fandango rating for a movie with an IMDb normalized rating of $x=4$ is given by
+$$\hat{y} =  1.7239 + 0.62974(4) = 4.24286$$
+We can do this calculation in R with the following command:
+<<>>=
+new_x <- data.frame(imdb_norm = 4)
+predict(lm1, newdata = new_x)
+@
+which gives the same result as the manual calculation.\\
+
+We can also use this approach to make several predictions at once.  For example, the following command gives the predicted Fandango ratings for movies with IMDb normalized ratings of $x=2.5, 3.5, 4.5$.
+<<>>=
+new_x <- data.frame(imdb_norm = c(2.5,3.5,4.5))
+predict(lm1, newdata = new_x)
+@
+
+The \texttt{predict()} function can also be used to compute a 95\% prediction interval (more on this next class).
+
+<<>>=
+new_x <- data.frame(imdb_norm = 4)
+predict(lm1, newdata = new_x, interval = "prediction")
+@
+\clearpage
+Here's how to make the scatterplot with the least squares line using \texttt{ggplot2}.
+
+<<fig.width=3.5, fig.height=3.5, warning = FALSE>>=
+library(ggplot2)
+ggplot(fandango, aes(imdb_norm, fandango_ratingvalue)) +
+  geom_point() + geom_smooth(method = "lm", se = FALSE) +
+  xlab("IMDb Rating") + ylab("Fandango Rating")
+@
+
+
+
+
+
+
+
+
+
+\end{document}

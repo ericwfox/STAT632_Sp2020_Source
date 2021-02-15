@@ -1,0 +1,59 @@
+\documentclass{article}[11pt]
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+\begin{document}
+
+\setlength\parindent{0pt}
+
+\textbf{SLR Practice Problem}\\
+
+Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.  Below is the R output from fitting a simple linear regression model to this data.  A scatter plot with the least squares line is also shown below. 
+
+<<fig.width=2.75, fig.height=2.75, size='scriptsize', message=FALSE>>=
+library(openintro)
+data("bac")
+lm1 <- lm(BAC ~ Beers, data = bac)
+summary(lm1)
+par(mar=c(4,4,1,1), cex=0.8) # adjust margins and font size
+plot(bac$Beers, bac$BAC, xlab="Cans of beer", ylab="BAC (grams /  deciliter)")
+abline(lm1)
+@
+
+\clearpage
+\begin{enumerate}[(a)]
+\item Describe the association between number of cans of beer and BAC.
+\item What are the explanatory and response variables for the linear regression model?
+\item Write the equation for the least squares line.
+\item Interpret the slope and the intercept in context.
+\item What is the predicted BAC for a person that drank 5 cans of beer?
+\item A student in this data set drank 9 beers and had a measured BAC of 0.19. Calculate the residual for this student. %student 3
+\item Interpret the coefficient of determination ($R^2$).
+\item Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol content?  State the null and alternative hypotheses, report the test statistic and $p$-value (from the \texttt{summary()} command), and state your conclusion.
+\item Calculate a 95\% confidence interval for $\beta_1$.
+\item Do the data provide evidence that the intercept is significantly different than 0?  State the null and alternative hypotheses, report the test statistic and $p$-value (from the \texttt{summary()} command), and state your conclusion.
+\item Calculate a 95\% confidence interval for $\beta_0$.
+\item Are the conditions for linear regression reasonably satisfied?  In your assessment, comment on the plot of the residuals versus number of cans of beer ($x$), and the QQ plot of the residuals shown below.
+\end{enumerate}
+
+<<fig.width=5, fig.height=2.5, size='scriptsize'>>=
+par(mfrow=c(1,2), cex=0.7)
+plot(bac$Beers, resid(lm1), xlab="Number of beers", ylab="Residuals")
+abline(h=0)
+qqnorm(resid(lm1))
+qqline(resid(lm1))
+@
+
+
+
+
+
+
+\end{document}

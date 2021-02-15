@@ -1,0 +1,181 @@
+\documentclass[10pt]{beamer}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{bm}
+
+\makeatletter
+\let \@sverbatim \@verbatim
+\def \@verbatim {\@sverbatim \verbatimplus}
+{\catcode`'=13 \gdef \verbatimplus{\catcode`'=13 \chardef '=13 }} 
+\makeatother
+
+\begin{document}
+
+\begin{frame}
+\large
+Lecture 2\\
+Inference for Simple Linear Regression\\
+STAT 632, Spring 2020
+\end{frame}
+
+\begin{frame}{Assumptions for SLR}
+\begin{enumerate}
+\item \textbf{Linearity}: $Y$ is related to $x$ by a simple linear regression model $Y_i = \beta_0 + \beta_1 x_i + e_i$ with mean $E(Y_i| X=x_i) = \beta_0 + \beta_1 x_i$.  That is, the data follow a linear trend in the scatter plot between $X$ and $Y$.  
+\item \textbf{Independence}:  The errors $e_1, e_2, \cdots, e_n$ are independent of each other.
+\item \textbf{Constant Variance}:  The errors $e_1, e_2, \cdots, e_n$ have common variance $Var(e_i) = \sigma^2$.
+\item \textbf{Normality}:  The errors are normally distributed, i.e, $e_i \sim N(0,\sigma^2)$
+\end{enumerate}
+\vspace{10pt}
+
+\textbf{Remark}: The assumptions are necessary for making inferences about the least squares estimates for the slope and intercept (i.e., hypothesis testing and confidence intervals), and for constructing valid prediction intervals.
+\end{frame}
+% example of non-constant variance on board
+% mention time series and spatial statistics for independence
+
+\begin{frame}
+\textbf{Simple linear regression model for the population}:\\
+$$ Y_i = \beta_0 + \beta_1 x_i + e_i $$\\
+$\beta_0$ and $\beta_1$ are the population parameters (fixed and non-random)
+\vspace{20pt}
+
+\textbf{Least squares line (estimated from the sample)}:\\
+$$ \hat{y}_i = \hat{\beta}_0 + \hat{\beta}_1 x_i $$\\
+$\hat{\beta}_0$ and $\hat{\beta}_1$ are the estimates (random, varies from sample to sample)
+\end{frame}
+
+\begin{frame}{Inferences About the Slope}
+Recall the least squares estimate of $\hat{\beta}_1$:
+\begin{align*}
+\hat{\beta}_1 &= \frac{\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sum_{i=1}^n (x_i - \bar{x})^2} = \frac{SXY}{SXX} 
+\end{align*}
+Since, $\sum_{i=1}^n (x_i - \bar{x}) = 0$ we find that
+\begin{align*}
+\sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y}) = \sum_{i=1}^n (x_i - \bar{x})y_i - \bar{y} \sum_{i=1}^n (x_i - \bar{x}) = \sum_{i=1}^n (x_i - \bar{x}) y_i
+\end{align*}
+Thus, we can rewrite $\hat{\beta}_1$ as
+$\hat{\beta}_1 = \sum_{i=1}^n c_i y_i$, where $c_i = \frac{x_i - \bar{x}}{\text{SXX}}$
+\end{frame}
+
+\begin{frame}{Inferences About the Slope}
+Under the assumptions for SLR, the expectation and variance of the least squares estimate of the slope is given by
+\begin{align*}
+E(\hat{\beta}_1) = \beta_1\\
+Var(\hat{\beta}_1) = \frac{\sigma^2}{\text{SXX}}
+\end{align*}
+
+Thus, the sampling distribution for $\hat{\beta}_1$ is
+\begin{align*}
+\hat{\beta}_1 \sim N(\beta_1, \frac{\sigma^2}{\text{SXX}})
+\end{align*}
+\vspace{10pt}
+
+\emph{Derivation -- use result from previous slide.}
+\end{frame}
+% go over proof on board
+
+\begin{frame}{Inferences About the Slope}
+Standardizing gives
+$$Z = \frac{\hat{\beta}_1 - \beta_1}{\sigma / \sqrt{\text{SXX}}} \sim N(0,1)$$
+However, since $\sigma$ is unknown we replace it with $\hat{\sigma}$, giving
+$$T = \frac{\hat{\beta}_1 - \beta_1}{\hat{\sigma} / \sqrt{\text{SXX}}} = \frac{\hat{\beta}_1 - \beta_1}{se(\hat{\beta}_1)},$$
+which follows a $t$ distribution with $n-2$ degrees of freedom (sample size - number of parameters estimated).
+\end{frame}
+
+\begin{frame}{Inferences About the Slope}
+Test whether the slope $\beta_1$ is zero.  That is, test whether or not there is a linear association between $X$ and $Y$.\\
+\vspace{10pt}
+$H_0: \beta_1 = 0$\\
+$H_A: \beta_1 \neq 0$\\
+\vspace{10pt}
+Test statistic:
+$$T = \frac{\hat{\beta}_1}{se(\hat{\beta}_1)}; \quad \text{df=n-2}$$
+\vspace{15pt}
+
+$1-\alpha$ confidence interval for the slope $\beta_1$:
+\begin{align*}
+\hat{\beta}_1 \pm t_{\alpha/2; n-2} se(\hat{\beta}_1)
+\end{align*}
+\end{frame}
+% mention that we can test against other values, but zero is default for R
+
+\begin{frame}{Inferences About the Intercept}
+Recall the least squares estimate of the intercept:
+$$\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}$$
+Under the assumptions for SLR, the expectation and variance is given by
+\begin{align*}
+E(\hat{\beta}_0) &= \beta_0\\
+Var(\hat{\beta}_0) &= \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{\text{SXX}} \right)
+\end{align*}
+Thus, the sampling distribution for $\hat{\beta}_0$ is
+$$\hat{\beta}_0 \sim N \left(\beta_0, \sigma^2 \left( \frac{1}{n} + \frac{\bar{x}^2}{\text{SXX}} \right) \right)$$
+\vspace{10pt}
+
+\emph{Derivation provided in Sheather, section~2.7.2}
+\end{frame}
+
+\begin{frame}{Inferences About the Intercept}
+Standardizing gives,
+$$Z = \frac{\hat{\beta}_0 - \beta_0}{\sigma \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\text{SXX}} }} \sim N(0,1)$$
+However, since $\sigma$ is unknown we replace it with $\hat{\sigma}$, giving
+$$ T= \frac{\hat{\beta}_0 - \beta_0}{\hat{\sigma} \sqrt{\frac{1}{n} + \frac{\bar{x}^2}{\text{SXX}} }} = \frac{\hat{\beta}_0 - \beta_0}{se(\hat{\beta}_0)}, $$
+which follows a $t$ distribution with $n-2$ degrees of freedom.
+\end{frame}
+
+\begin{frame}{Inferences About the Intercept}
+Test whether the intercept $\beta_0$ is zero.\\
+\vspace{10pt}
+$H_0: \beta_0 = 0$\\
+$H_A: \beta_0 \neq 0$\\
+\vspace{10pt}
+Test statistic:
+$$T = \frac{\hat{\beta}_0}{se(\hat{\beta}_0)}; \quad \text{df=n-2}$$
+\vspace{15pt}
+
+$1-\alpha$ confidence interval for the intercept $\beta_0$:
+\begin{align*}
+\hat{\beta}_0 \pm t_{\alpha/2; n-2} se(\hat{\beta}_0)
+\end{align*}
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+\small
+\begin{verbatim}
+> lm1 <- lm(wgt ~ hgt, data=bdims_males)
+> summary(lm1)
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -60.95336   14.05436  -4.337 2.11e-05 ***
+hgt           0.78257    0.07901   9.905  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 8.902 on 245 degrees of freedom
+Multiple R-squared:  0.2859,	Adjusted R-squared:  0.283 
+F-statistic: 98.11 on 1 and 245 DF,  p-value: < 2.2e-16
+\end{verbatim}
+\end{frame}
+% write null and alternative hypothesis for slope, and conclusion pased on p-value
+
+
+\begin{frame}[fragile]{Example}
+\begin{verbatim}
+> confint(lm1)
+                  2.5 %     97.5 %
+(Intercept) -88.6361527 -33.270576
+hgt           0.6269509   0.938186
+
+# manual calculation CI for slope 
+> n <- nrow(bdims_males)
+> tcrit <- qt(0.975, df=n-2)
+> 0.78257 - tcrit * 0.07901
+[1] 0.6269445
+> 0.78257 + tcrit * 0.07901
+[1] 0.9381955
+\end{verbatim}
+\end{frame}
+
+\end{document}

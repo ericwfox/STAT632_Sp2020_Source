@@ -1,0 +1,59 @@
+---
+title: "Lab 2 Solutions, STAT 630"
+output: pdf_document
+---
+
+## Exercise 1
+```{r, fig.width=5, fig.height=5}
+# first load data
+data_url <- "https://github.com/ericwfox/stat630data/raw/master/cdc.csv"
+cdc <- read.csv(data_url, header = TRUE)
+
+plot(cdc$weight, cdc$wtdesire, xlab="Weight", ylab="Desired Weight", cex=0.6)
+abline(0,1)
+```
+\clearpage
+
+## Exercise 2
+The actual weights of the two individuals are 290 and 180 pounds.
+
+```{r}
+subset(cdc, wtdesire > 500)
+```
+
+```{r, fig.width=4, fig.height=4}
+cdc2 <- subset(cdc, wtdesire < 500)
+plot(cdc2$weight, cdc2$wtdesire, xlab="Weight", ylab="Desired Weight", cex=0.6)
+abline(0,1)
+```
+\clearpage
+
+## Exercise 3
+```{r}
+cdc_m_ex <- subset(cdc, exerany==1 & gender == "m")
+summary(cdc_m_ex$weight)
+summary(cdc_m_ex$wtdesire)
+```
+
+
+## Exercise 4
+```{r}
+addmargins(table(cdc$genhlth, cdc$exerany))
+```
+\medskip
+
+What proportion of respondents that reported to be in excellent health exercised in the past month?
+```{r}
+3895/4657
+```
+Note: this can be written as the conditional probability $P(\text{exercise} | \text{excellent health})$.
+\medskip
+
+What proportion of respondents that reported to be in poor health exercised in the past month? 
+```{r}
+293/677
+```
+Note: this can be written as the conditional probability $P(\text{exercise} | \text{poor health})$.
+
+
+

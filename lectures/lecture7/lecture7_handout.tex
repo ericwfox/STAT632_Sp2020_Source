@@ -1,0 +1,141 @@
+\documentclass[11pt, fleqn]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, Lecture 7 Handout}\\
+
+The Child Health and Development Studies investigate a range of topics. One study considered all pregnancies between 1960 and 1967 among women in the Kaiser Foundation Health Plan in the San Francisco East Bay area.  The response variable of interest is \texttt{bwt}, the birthweight of the infants in ounces.  The explanatory variables are \texttt{gestation}, the length of gestation, in days; \texttt{parity}, a dummy variable which is 0 if the child is first born, and 1 otherwise; \texttt{age}, the mother's age in years; \texttt{height}, the mother's height in inches; \texttt{weight}, the mother's weight in pounds; and \texttt{smoke}, a dummy variable which is 0 if the mother is a nonsmoker, and 1 if the mother smokes.  A regression summary from fitting this model in R is shown below.
+
+\begin{knitrout}\small
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(openintro)}
+\hlkwd{head}\hlstd{(babies,} \hlkwc{n}\hlstd{=}\hlnum{3}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##   case bwt gestation parity age height weight smoke
+## 1    1 120       284      0  27     62    100     0
+## 2    2 113       282      0  33     64    135     0
+## 3    3 128       279      0  28     64    115     1
+\end{verbatim}
+\begin{alltt}
+\hlstd{lm1} \hlkwb{<-}  \hlkwd{lm}\hlstd{(bwt} \hlopt{~} \hlstd{gestation} \hlopt{+} \hlstd{parity} \hlopt{+} \hlstd{age} \hlopt{+} \hlstd{height} \hlopt{+} \hlstd{weight} \hlopt{+} \hlstd{smoke,} \hlkwc{data} \hlstd{= babies)}
+\hlkwd{summary}\hlstd{(lm1)}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = bwt ~ gestation + parity + age + height + weight + 
+##     smoke, data = babies)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -57.613 -10.189  -0.135   9.683  51.713 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -80.41085   14.34657  -5.605 2.60e-08 ***
+## gestation     0.44398    0.02910  15.258  < 2e-16 ***
+## parity       -3.32720    1.12895  -2.947  0.00327 ** 
+## age          -0.00895    0.08582  -0.104  0.91696    
+## height        1.15402    0.20502   5.629 2.27e-08 ***
+## weight        0.05017    0.02524   1.987  0.04711 *  
+## smoke        -8.40073    0.95382  -8.807  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 15.83 on 1167 degrees of freedom
+##   (62 observations deleted due to missingness)
+## Multiple R-squared:  0.258,	Adjusted R-squared:  0.2541 
+## F-statistic: 67.61 on 6 and 1167 DF,  p-value: < 2.2e-16
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+\clearpage
+
+\begin{enumerate}[(a)]
+\item Write the equation for the multiple linear regression model.
+\vspace{1.5cm}
+\item Interpret the coefficients for \texttt{gestation} and \texttt{smoke}.
+\vspace{4.5cm}
+\item For which predictor(s) do we reject the null hypothesis $H_0: \beta_i = 0$?   
+% \item Calculate the residual for the first observation in the data set.
+\vspace{1.5cm}
+\item Calculate a 95\% confidence interval for the coefficient of \texttt{gestation}.  Note that $n=1174$.
+\vspace{3cm}
+\item Interpret the coefficient of determination ($R^2$)?
+\vspace{2cm}
+\item The following is a coefficient table for a simple linear regression model  with \texttt{bwt} as the response and \texttt{height} as the predictor.  Why is the coefficient for \texttt{height} presented below different than the multiple linear regression model?
+\begin{verbatim}
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  27.6810    13.0298   2.124   0.0338 *  
+height        1.4334     0.2033   7.052 2.97e-12 ***
+\end{verbatim}
+\end{enumerate}
+
+
+
+
+
+\end{document}

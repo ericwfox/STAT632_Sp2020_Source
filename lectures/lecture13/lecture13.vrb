@@ -1,0 +1,11 @@
+\small
+\emph{An aside} - \texttt{ggplot2} can also be used to investigate nonlinear relationships in the data.  Below we add a loess smoother to each scatter plot.\footnote{See ISLR, Ch. 7, pp. 280-282 to learn more about local regression.}
+
+\begin{verbatim}
+ggplot(Wage, aes(age, logwage)) +
+  geom_point(size = 0.3, alpha=0.6) + facet_wrap( ~ education) +
+  geom_smooth(method='loess')
+\end{verbatim}
+\begin{figure}
+\includegraphics[scale=0.55]{figure/educ_age_loess_scatter.pdf}
+\end{figure}

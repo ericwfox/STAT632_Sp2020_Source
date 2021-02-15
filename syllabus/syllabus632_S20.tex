@@ -1,0 +1,112 @@
+\documentclass[11pt]{report}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}               
+\usepackage{setspace}                
+\usepackage{graphicx}
+\usepackage{url}
+%\usepackage{fullpage}
+
+\newenvironment{myitemize}
+{ \begin{itemize}
+    \setlength{\itemsep}{5pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  } 
+
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\begin{center}
+\Large
+Syllabus for STAT 632: Linear and Logistic Regression\\
+\large
+Spring 2020\\   
+\end{center}
+\vspace{5pt}
+
+\normalsize
+\textbf{Instructor:} Dr.~Eric Fox\\ 
+Office: SC-N 303A\\ 
+Email: \url{eric.fox@csueastbay.edu}\\
+
+\textbf{Lecture:}
+\begin{table}[ht!]
+\begin{tabular}{|l|l|}
+\hline
+Section 1 & Tu 3:15PM --  4:55PM at SC-N 336\\
+ & Th 3:15PM --  4:55PM at SC-N 207\\
+ \hline
+Section 2 & Tu 8:00PM --  9:40PM at SC-S 146\\
+& Th 8:00PM --  9:40PM at SC-S 146\\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Office Hours:} Tu, Th 1:30-2:30 and 7:15-7:45PM, or by appointment\\
+
+\textbf{Website:} Course materials will be posted on Blackboard.\\ 
+
+\textbf{Textbook}: Simon Sheather. \emph{A Modern Approach to Regression with R}, Springer, 2009.\\
+Free electronic version: \url{http://library.csueastbay.edu/home}\\
+Data sets and R code: \url{http://gattonweb.uky.edu/sheather/book/}
+\vspace{6pt}
+
+James, G., Witten, D., Hastie, T., and Tibshirani, R. \emph{An Introduction to Statistical Learning with Applications in R}. Springer, 2013.\\
+Free PDF version: \url{http://www-bcf.usc.edu/~gareth/ISL/}\\ 
+
+\textbf{Software}:\\ 
+R, can be downloaded here \url{https://www.r-project.org/}\\
+RStudio, can be downloaded here \url{https://www.rstudio.com/}\\
+LaTeX (optional), can be dowloaded here \url{https://www.latex-project.org/}\\
+%LaTeX
+
+\textbf{Course Topics}:
+\begin{myitemize}
+\item Simple linear regression
+\item Multiple linear regression, matrix notation
+\item Model diagnostics and transformations
+\item Variable selection
+\item Logistic regression
+\item Cross-validation
+\item Generalized least squares estimation
+\item Regularization (ridge regression and LASSO)
+\item Decision trees and random forests\\
+\end{myitemize}
+
+\textbf{Grading:}  There will be two midterm exams, each worth 20\% of your grade.  Due to the transition to online, homework will now be worth 60\% of your grade.  Your lowest \textbf{two} scoring homework assignments will be dropped.  
+\begin{myitemize}
+\item 20\% Midterm 1
+\item 20\% Midterm 2 (take-home)
+\item 60\% Homework Assignments\\
+\end{myitemize}
+
+
+% \textbf{Grading:}
+% There will be two midterm exams, each worth 20\% of your grade.   For the project you will need to find a data set of interest, and then conduct a regression analysis using that data set.  You will be required to give a presentation on your project during the last two weeks of class.  For the final project you are also encouraged to use a modern method (e.g., random forests, LASSO).  There will be no final exam.  
+% \begin{myitemize}
+% \item 40\% Two Midterm Exams (20\% each)
+% \item 30\% Homework
+% \item 20\% Project Paper
+% \item 10\% Presentation\\
+% \end{myitemize} 
+%For the project you are also welcome to try modern techniques (e.g., LASSO, random forests), but keep in mind that we will not cover these topics until the end of the semester.
+
+\textbf{Policy on Make-up Exams and Late Assignments:}  If you miss an exam due to an emergency or illness and provide documentation I may agree to a make-up, or count your other exams proportionally more.  Late homework will not be accepted.\\
+%However, your lowest scoring homework assignment will be dropped.
+
+\textbf{Student Learning Outcomes:}  Upon successful completion of this course, students will be able to:
+\begin{myitemize}
+\item Apply statistical methodologies, including (a) simple and multiple linear regression, (b) model diagnostics and transformations, and (c) logistic regression.
+\item Derive and understand basic theory underlying these methodologies. 
+\item Use R and RStudio to analyze data sets, estimate statistical models, and conduct model diagnostics.
+\item Understand and apply modern techniques such as cross-validation, regularization, and decision trees / random forests.
+\item Communicate statistical concepts clearly and appropriately to others.\\    
+\end{myitemize}
+
+\textbf{Common Syllabus Items:}  Items such as policies on academic dishonesty, disability, and handling emergency situations can be found under ``University Policies" on Blackboard.
+
+
+
+\end{document}

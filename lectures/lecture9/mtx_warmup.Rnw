@@ -1,0 +1,129 @@
+\documentclass[11pt, fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\large \textbf{Matrix Warmup}\footnote{This is based on a worksheet created by Professor Charlotte Wickham of Oregon State University.}\\
+
+\normalsize Let
+\[
+\bm{A} =
+\begin{pmatrix}
+1 & 1\\
+1 & 2\\
+1 & 3 
+\end{pmatrix},
+\quad
+\bm{B} = 
+\begin{pmatrix}
+4 & 7\\
+1 & 2
+\end{pmatrix},
+\quad
+\bm{x} = 
+\begin{pmatrix}
+4\\
+2
+\end{pmatrix},
+\quad
+c = 3,
+\quad
+\bm{I}_3 = 
+\begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{pmatrix}
+\]
+
+Compute each of the following, or specify that it's not possible.
+\begin{enumerate}
+\item $\bm{A} + \bm{A}$\\
+\vspace{11pt}
+
+\item $\bm{x} + \bm{A}$\\
+\vspace{11pt}
+
+\item $c \bm{A}$\\
+\vspace{11pt}
+
+\item $\bm{A} \bm{x}$\\
+\vspace{11pt}
+
+\item $\bm{x} \bm{A}$\\
+\vspace{11pt}
+
+\item $\bm{I}_3 \bm{A}$\\
+\vspace{11pt}
+
+\item $\bm{A'}$\\
+\vspace{11pt}
+
+\item $\det(\bm{B})$\\
+\vspace{11pt}
+
+\item $\bm{B}^{-1}$\\
+\vspace{11pt}
+
+\item $\bm{x'}\bm{x}$\\
+\end{enumerate}
+\clearpage
+
+To check your answers, you can use R:
+<<eval=F, echo=T>>=
+A <- matrix(c(
+    1, 1,
+    1, 2,
+    1, 3
+  ),
+  ncol=2, byrow=T)
+B <- matrix(c(
+    4, 7,
+    1, 2
+  ),
+  ncol=2, byrow=T)
+
+x <- matrix(c(4, 2), ncol=1, byrow=T)
+
+c <- 3
+
+I_3 <- diag(nrow = 3) 
+@
+
+<<eval=F, echo=T>>=
+# 1
+A + A
+# 2
+x + A
+# 3
+c * A
+# 4
+A %*% x
+# 5
+x %*% A
+# 6
+I_3 %*% A
+# 7
+t(A)
+# 8
+det(B)
+# 9
+solve(B)
+# 10
+t(x) %*% x
+@
+
+
+A nice reference about matrix algebra in R:\\
+\url{https://www.statmethods.net/advstats/matrix.html}\\
+
+\end{document}

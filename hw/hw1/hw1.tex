@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 1}\\
+Due: Thursday, February 6\\
+
+\textbf{Reading}: Chapter 2 from \emph{A Modern Approach to Regression}.\\
+Chapter 3, pp. 59--71 from \emph{An Introduction to Statistical Learning}.\\
+
+\textbf{Directions}:  Please submit your completed assignment to Blackboard.  For the concept questions, your solutions may be typed (using LaTeX or equation editor in Word), or handwritten and then scanned (you can download a scanner application on your smart phone).  For the data analysis questions, which require R, you must type your solutions.  I suggest using R Markdown and knitting to PDF or HTML.  If you are using Word, please covert your report to a PDF.  Include all R code in your answers to each data analysis question.\\
+\vspace{10pt}
+
+\Large
+\textbf{Concept Questions}\\
+\normalsize
+
+
+\textbf{Exercise 1}.  The following is a regression summary from R for a linear regression model between an explanatory variable $x$ and a response variable $y$.  The data contain $n=50$ points.  Assume that all the conditions for SLR are satisfied.  
+\begin{verbatim}
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -1.1016     0.4082  -2.699  ______  **
+x             2.2606     0.0981   _____  < 2e-16 ***
+\end{verbatim}
+
+\begin{enumerate}[(a)]
+\item Write the equation for the least squares regression line.
+\item R performs a t-test to test whether the slope is significantly different than 0.  State the null and alternative hypothesis for this test.  Based on the $p$-value what is the conclusion of the test (i.e., reject or do not reject the null hypothesis)?
+\item Calculate the missing $p$-value for the intercept.
+\item Calculate the missing t-statistic for the slope.
+\item Calculate a 95\% confidence interval for the slope of the regression line.  Does this interval agree with the results of the hypothesis test?\\
+\end{enumerate}
+\clearpage
+
+\textbf{Exercise 2}.\footnote{From \emph{A Modern Approach to Regression with R}, Chapter 2, Exercise 4, with slight modifications} Consider the linear regression model through the origin given by $Y_i = \beta x_i + e_i$ for $i=1,\cdots, n$.  Assume $e_i \sim N(0, \sigma^2)$, that is, the errors are independent and normally distributed with constant variance.  
+\begin{enumerate}[(a)]
+\item Show that the least squares estimate of the slope is given by
+$$\hat{\beta} = \frac{\sum_{i=1}^n x_i y_i}{\sum_{i=1}^n x_i^2}$$
+(Hint: minimize $R(\hat{\beta}) = \sum_{i=1}^n (y_i - \hat{\beta} x_i)^2$ by taking the derivative and setting the derivative equal to zero.)
+
+\item Show that $E(\hat{\beta}) = \beta$ 
+\item Show that $Var(\hat{\beta}) = \frac{\sigma^2}{\sum_{i=1}^n x_i^2}$\\
+\end{enumerate}
+\vspace{10pt}
+
+\Large
+\textbf{Data Analysis Questions}\\
+\normalsize
+
+\textbf{Exercise 3}.\footnote{From \emph{A Modern Approach to Regression with R}, Chapter 2, Exercise 1, with slight modifications} The web site \url{www.playbill.com} provides weekly reports on the box office ticket sales for plays on Broadway in New York. We shall consider the data for the week October 11–17, 2004 (referred to below as the current week). The data are in the form of the gross box office results for the current week and the gross box office results for the previous week (i.e., October 3–10, 2004).  The data are available on the book web site \url{http://gattonweb.uky.edu/sheather/book/}  in the file playbill.csv.\\
+
+Fit the following model to the data: $Y = \beta_0 + \beta_1 x + e$ where $Y$ is the gross box office results for the current week (in dollars) and $x$ is the gross box office result for the previous week (in dollars).  Complete the following tasks:
+
+\begin{enumerate}[(a)]
+\item Use \texttt{read.csv()} to load the \texttt{playbill.csv} data file into R. Make a scatter plot of the response versus the explanatory variable, and superimpose the least squares regression line.
+\item Calculate a 95\% confidence interval for the intercept and slope of the regression model, $\beta_0$ and $\beta_1$ [hint: use the \texttt{confint()} function]. Is 1 a plausible value for $\beta_1$?  
+\item Use the fitted regression model to estimate the gross box office results for the current week (in dollars) for a production with \$400,000 in gross box office the previous week. Find a 95\% prediction interval for the gross box office results for the current week (in dollars) for a production with \$400,000 in gross box office the previous week. Is \$450,000 a feasible value for the gross box office results in the current week, for a production with \$400,000 in gross box office the previous week?
+\item Some promoters of Broadway plays use the prediction rule that next week’s gross box office results will be equal to this week’s gross box office results. Comment on the appropriateness of this rule.
+\end{enumerate}
+\vspace{10pt}
+
+\textbf{Exercise 4}.\footnote{From Weisberg~S.,\emph{Applied Linear Regression}, Fourth edition, Exercise 2.20, with slight modifications} For this question use the \texttt{oldfaith} data set form the \texttt{alr4} package.  To access this data set first install the package using \texttt{install.packages("alr4")} (this only needs to be done once).  Then load the package into R with the command \texttt{library(alr4)}.  Documentation for the data set can be read in the help menu by entering the command \texttt{help(oldfaith)}.\\
+
+The \texttt{oldfaith} data set gives information about eruptions of Old Faithful Geyser during October 1980.  Variables are \texttt{Duration} in seconds of the current eruption, and the \texttt{Interval}, the time in minutes to the next eruption.  The data were collected by volunteers and were provided by the late Roderick Hutchinson.  Apart from missing data for the period from midnight to 6 a.m., this is a complete record of eruptions for that month.\\
+
+Old Faithful Geyser is an important tourist attraction, with up to several thousand people watching it erupt on pleasant summer days.  The park service uses data like these to obtain a prediction equation for the time to the next eruption.
+
+\begin{enumerate}[(a)]
+\item Use the \texttt{lm()} function to perform a simple linear regression with \texttt{Interval}  as the response and \texttt{Duration} as the predictor.  Use the \texttt{summary()} function to print the results.
+\item Make a scatter plot of \texttt{Interval} versus \texttt{Duration}. Superimpose the least squares regression line on the scatter plot.
+\item An individual has just arrived at the end of an eruption that lasted 250 seconds.  What is the predicted amount of time the individual will have to wait until the next eruption?  Calculate a 95\% prediction interval for the time the individual will have to wait for the next eruption.
+\item Interpret the coefficient of determination ($R^2$).
+\end{enumerate}
+
+
+%Weisberg 2.15
+%Weisberg 1.1, 2.16
+
+% \textbf{Exercise 4}.  For this question use the \texttt{Auto} data set form the \texttt{ISLR} package.  To access the data set first install the package using \texttt{install.packages("ISLR")} (this only need to be done once).  Then load the package into R wih the command \texttt{library(ISLR)} (this command needs to run for each new R session).  Once the package is loaded you should have access to the data set.  Documentation for the data set can be read in the help menu by typing the command \texttt{?Auto} or \texttt{help(Auto)}.
+% \begin{enumerate}[(a)]
+% \item Make a scatter plot of mpg ($y$) versus horsepower ($x$).  Comment on the relationship between the two variables (e.g., is it positive or negative, linear or nonlinear?).
+% \item Use the \texttt{lm()} function to perform a simple linear regression with \texttt{mpg} as the response and \texttt{horsepower} as the predictor.  Use the \texttt{summary()} function to print the results.
+% \item Supperimpose the least squares line on the scatter plot you created in part (a).
+% \item What is the predicted mpg for a car with a horepower of 98?  What is the associated 95\% prediction interval.
+% \item Make a plot of the residual versus fitted values.  Comment on any violations of the assumptions for simple linear regression.
+% \end{enumerate}
+
+
+
+%\textbf{Exercise 4}.
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

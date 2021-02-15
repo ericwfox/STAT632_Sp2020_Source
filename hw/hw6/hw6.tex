@@ -1,0 +1,129 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 6}\\
+Due: Tuesday, April 7\\
+
+\textbf{Reading}: Chapter 3, pp. 82--90 and 99--102, from \emph{An Introduction to Statistical Learning}.\\
+Chapter 5, pp. 140--146, and Chapter 6, pp. 195--203,  from \emph{A Modern Approach to Regression}.\\
+
+\textbf{Exercise 1}.  For this exercise use the \texttt{bdims} data set from the \texttt{openintro} package.  Since \texttt{ggplot()} requires that a categorical variable be coded as a factor type in R, run the following code:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(openintro)}
+\hlstd{bdims}\hlopt{$}\hlstd{sex2} \hlkwb{<-} \hlkwd{factor}\hlstd{(bdims}\hlopt{$}\hlstd{sex,} \hlkwc{levels}\hlstd{=}\hlkwd{c}\hlstd{(}\hlnum{0}\hlstd{,}\hlnum{1}\hlstd{),} \hlkwc{labels}\hlstd{=}\hlkwd{c}\hlstd{(}\hlstr{"F"}\hlstd{,} \hlstr{"M"}\hlstd{))}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+\begin{enumerate}[(a)]
+\item Use \texttt{ggplot2} to make a scatter plot with \texttt{hgt} on the x-axis, and \texttt{wgt} on the y-axis.  Color the points according to the gender variable \texttt{sex2}.  Use \texttt{geom\_smooth()} to add the least squares lines for each gender to the scatter plot.
+\item Use \texttt{lm()} to fit a linear regression model with \texttt{wgt} as the response variable, and \texttt{hgt} and \texttt{sex} as the predictors.  Use \texttt{summary()} to print the results.
+\item Write down the regression equation for the model fit in part (b).  The model describes two parallel lines; what are the equations for these two lines?
+\item Use \texttt{lm()} to fit a linear regression model with \texttt{wgt} as the response variable, and \texttt{hgt}, \texttt{sex}, and the interaction between \texttt{hgt} and \texttt{sex} as predictors.  Use \texttt{summary()} to print the results.  Is the interaction term significant?
+\item Write out the regression equation for the model fit in part (d).  The model describes two unrelated regression lines (with different slopes and intercepts); what are the equations for these two lines?
+\end{enumerate}
+\clearpage
+
+\textbf{Exercise 2}.  For this exercise use the HDI data set discussed in the previous assignment:
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{hdi} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://ericwfox.github.io/data/hdi2018.csv"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+Fit the full model with \texttt{hdi\_2018} as the response, and the other four variables as predictors  (\texttt{median\_age}, \texttt{pctpop65}, \texttt{pct\_internet}, and \texttt{pct\_labour}).
+\begin{enumerate}[(a)]
+\item Compute the correlation matrix between the predictors.  Are there strong correlations between some of the predictors?
+\item Compute the variance inflation factors (VIFs) for the predictors.  Do the VIFs indicate that multicollinearity is an issue? [Load the \texttt{faraway} package to use \texttt{vif()} function]
+\item Provide an interpretation of the VIF for the \texttt{median\_age} predictor.\\
+\end{enumerate}
+
+
+
+\textbf{Exercise 3}.  For this exercise use the \texttt{ozone} data from the \texttt{faraway} package.   Fit a model with \texttt{O3} as the response, and \texttt{temp}, \texttt{humidity} and \texttt{ibh} as predictors.  Use the Box-Cox method to determine the best transformation on the response.  Use residual versus fitted plots to evaluate the fit of the model with and without the response transformation.\\
+\vspace{11pt}
+
+
+
+\hrulefill
+\vspace{11pt}
+
+Additional practice on categorical predictors with more than 2 levels (not to be collected)\\
+
+\textbf{Practice Problem}.  For this exercise use the \texttt{Carseats} data set from the \texttt{ISLR} package.
+\begin{enumerate}[(a)]
+\item Use \texttt{ggplot2} to make scatter plots with with \texttt{Price} on the x-axis, and \texttt{Sales} on the y-axis; use \texttt{facet\_wrap()} to create 3 panels for each level (Bad, Good, Medium) of the categorical predictor \texttt{ShelveLoc} (quality of shelving location).  Add a regression  line to each panel with \texttt{geom\_smooth()}.
+\item Fit a linear regression model with \texttt{Sales} as the response, and \texttt{Price} and \texttt{ShelveLoc} as predictors.  In the regression model, what is the baseline level for the categorical predictor \texttt{ShelveLoc}?
+\item Fit a linear regression model with \texttt{Sales} as the response, and \texttt{Price}, \texttt{ShelveLoc}, and the interaction between \texttt{Price} and \texttt{Shelveloc} as predictors.
+\item Use the partial F-test to compare the models fit parts (b) and (c).  What is the conclusion of the test?
+\end{enumerate}
+
+
+
+
+
+
+\end{document}

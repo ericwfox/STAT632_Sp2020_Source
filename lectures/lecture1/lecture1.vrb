@@ -1,0 +1,11 @@
+\frametitle{Correlation Coefficent}
+\begin{itemize}
+\item $R^2$ can also be computed as the correlation coefficient squared.
+\begin{verbatim}
+> cor(bdims_males$wgt, bdims_males$hgt)^2
+[1] 0.2859487
+\end{verbatim}
+\vspace{10pt}
+\item The least squares estimate of the slope can be written in terms of the the correlation coefficient:
+$$\hat{\beta}_1 = r \frac{s_y}{s_x}$$
+\end{itemize}

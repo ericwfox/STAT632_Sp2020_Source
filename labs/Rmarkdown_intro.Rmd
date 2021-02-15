@@ -1,0 +1,86 @@
+---
+title: "Intro to R Markdown"
+author: "Dr. Eric Fox, STAT 632, Spring 2020"
+output:
+  html_document: default
+  pdf_document: default
+editor_options:
+  chunk_output_type: inline
+---
+
+### Text and Lists
+
+Markdown provides an easy way to make lists and format text.
+
+* plain  
+* **bold**
+* *italics*
+* `code`
+
+Be sure to put a space after the * when you are creating bullets and a space after # when creating section headers.
+
+### R Code Chunks
+
+Code in R chunks will be printed an evaluated.
+
+```{r}
+summary(mtcars$mpg)
+```
+
+You can also use "chunk options" to modify how your R chunks work.  We can hide the code:
+
+```{r, echo = F}
+summary(mtcars$mpg)
+```
+
+Or we can hide the output:
+
+```{r, eval = F}
+summary(mtcars$mpg)
+```
+
+### Graphics
+
+```{r}
+plot(mtcars$wt, mtcars$mpg)
+```
+
+For better presentation adjust the chunk options `fig.width` and `fig.height`.
+
+```{r, fig.width=4, fig.height=4}
+plot(mtcars$wt, mtcars$mpg)
+```
+
+```{r, fig.width=3, fig.height=3}
+library(ggplot2)
+ggplot(mtcars, aes(wt, mpg)) + geom_point()
+```
+
+### Equations
+
+LaTeX equations can be embedded in R Markdown documents.
+
+Inline equation: $y_i = \beta_0 + \beta_1 x_i + e_i$
+
+Display equations:
+$$\sum_{i=1}^n  (y_i - \hat{y}_i)^2$$
+
+### Destination Formats
+
+This file can be knit to HTML, PDF, or Word.  In RStudio, just select the desired 
+output file type and click on `Knit HTML`, `Knit PDF`, or `Knit Word`.  You will need LaTeX installed to knit to PDF.  
+
+Note that Blackboard does not accept HTML files.  One workaround is to first zip your HTML file, and then submit the zipped file to Blackboard.
+
+### Links
+
+Some helpful links for learning R Markdown:
+
+* [Markdown Basics](https://rmarkdown.rstudio.com/authoring_basics.html)
+* [Lessons from RStudio](https://rmarkdown.rstudio.com/lesson-1.html)
+* [Youtube tutorial by Dr. Rodger Peng](https://www.youtube.com/watch?v=DNS7i2m4sB0&t=328s)
+
+
+
+
+

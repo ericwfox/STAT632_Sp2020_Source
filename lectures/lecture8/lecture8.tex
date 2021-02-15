@@ -1,0 +1,419 @@
+\documentclass[11pt]{beamer}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{nccmath}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+
+\begin{document}
+
+%---------------------------------------------------
+\begin{frame}
+\large
+Lecture 8:\\ 
+Matrix Notation for Multiple Linear Regression\\
+STAT 632, Spring 2020\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+We say that $\bm{X}$ is an $r \times c$ \emph{matrix} if it is an array of numbers with $r$ rows and $c$ columns.\\
+\vspace{12pt}
+\textbf{Ex}:
+\[
+\underset{(4 \times 3)}{\bm{X}} =
+\begin{pmatrix}
+1 & 2 & 1\\
+1 & 1 & 5\\
+1 & 3 & 4\\
+1 & 8 & 6
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_{11} & x_{12} & x_{13}\\
+x_{21} & x_{22} & x_{23}\\
+x_{31} & x_{32} & x_{33}\\
+x_{41} & x_{42} & x_{43}\\
+\end{pmatrix}
+\]
+
+\vspace{12pt}
+The element $x_{ij}$ denotes the number in the $i^{th}$ row and $j^{th}$ column.\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+A \emph{vector} is a one-column matrix.\\
+\vspace{12pt}
+\textbf{Ex:}
+\[
+\underset{(4 \times 1)}{\bm{y}} =
+\begin{pmatrix}
+2\\
+3\\
+-2\\
+0
+\end{pmatrix}
+=
+\begin{pmatrix}
+y_1\\
+y_2\\
+y_3\\
+y_4\\
+\end{pmatrix}
+\]\\
+\vspace{12pt}
+\textbf{Notation}: Bold face is used to denote matrices and vectors.\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+A \emph{square matrix} has the same number of rows and columns, so $r=c$.  A square matrix is \emph{diagonal} if all elements off the main diagonal are 0.\\
+\vspace{12pt}
+\textbf{Ex:} $\bm{C}$ is a square matrix, and $\bm{D}$ is a diagonal matrix.
+\[
+\underset{(3 \times 3)}{\bm{C}} =
+\begin{pmatrix}
+-5 & 1 & 3\\
+1 & 2 & 6\\
+3 & 6 & -4\\
+\end{pmatrix}
+\hspace{1cm}
+\underset{(3 \times 3)}{\bm{D}} =
+\begin{pmatrix}
+-5 & 0 & 0\\
+0 & 2 & 0\\
+0 & 0 & -4
+\end{pmatrix}
+\]\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+The \emph{identity matrix} is a diagonal matrix with 1's on the diagonal.\\
+\vspace{12pt}
+\textbf{Ex:}
+\[
+\bm{I}_3 =
+\begin{pmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1
+\end{pmatrix}
+\]
+\clearpage
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+The \emph{transpose} of a matrix reverses rows and columns.\\
+\vspace{12pt}
+\textbf{Ex}:
+\[
+\underset{(4 \times 3)}{\bm{X}} =
+\begin{pmatrix}
+1 & 2 & 1\\
+1 & 1 & 5\\
+1 & 3 & 4\\
+1 & 8 & 6
+\end{pmatrix}
+\hspace{1cm}
+\underset{(3 \times 4)}{\bm{X'}} =
+\begin{pmatrix}
+1 & 1 & 1 & 1\\
+2 & 1 & 3 & 8\\
+1 & 5 & 4 & 6
+\end{pmatrix}
+\]
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Review of Matrices}
+A square matrix $\bm{C}$ is \emph{symmetric} if it equals its transpose, $\bm{C'} = \bm{C}$.\\ 
+\vspace{12pt}
+\textbf{Ex:}
+\[
+\bm{C} = 
+\begin{pmatrix}
+-5 & 1 & 3\\
+1 & 2 & 6\\
+3 & 6 & -4
+\end{pmatrix}
+\]\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Matrix Addition and Scalar Multiplication}
+\[
+\underset{(2 \times 3)}{\bm{A}} = 
+\begin{pmatrix}
+1 & 2 & 3\\
+4 & 5 & 6
+\end{pmatrix}
+\hspace{1cm}
+\underset{(2 \times 3)}{\bm{B}} = 
+\begin{pmatrix}
+-5 & 1 & 2\\
+3 & 0 & -4
+\end{pmatrix}
+\]
+\vspace{1cm}
+
+$\bm{A} + \bm{B} =$\\
+\vspace{1cm}
+
+$\bm{A} - \bm{B} =$\\ 
+\vspace{1cm}
+
+$2 \bm{A} =$\\
+\vspace{1cm}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Inner Product}
+\vspace{-2cm}
+The \emph{inner product} (or dot product) of two vectors $ \underset{(1 \times n)}{\bm{a'}}$ and $\underset{(n \times 1)}{\bm{b}}$ is
+
+$$ \bm{a'}\bm{b} = a_1 b_1 + a_2 b_2 + \cdots + a_n b_n = \sum_{i=1}^n a_i b_i$$
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Matrix Multiplication}
+\vspace{-1cm}
+For two matrices to be multiplied together, $\bm{A}\bm{B}$, the number of columns of $\bm{A}$ must equal the number of rows of $\bm{B}$.
+
+$$\underset{(r \times c)}{\bm{A}} \underset{(c \times q)}{\bm{B}}
+= \underset{(r \times q)}{\bm{A}\bm{B}}$$
+
+\textbf{Ex:}\\
+\vspace{5pt}
+\begin{fleqn}
+\[
+\begin{pmatrix}
+3 & 1\\
+-1 & 0\\
+2 & 2
+\end{pmatrix}
+\begin{pmatrix}
+5 & 1\\
+0 & 4
+\end{pmatrix}
+=
+\]
+\end{fleqn}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Inverse of a Matrix}
+The \emph{inverse} of a square matrix $\bm{C}$ is denoted $\bm{C}^{-1}$ and has the property 
+
+$$\bm{C}\bm{C}^{-1} = \bm{C}^{-1}\bm{C} = \bm{I}$$ 
+
+Not all square matrices have an inverse.  A square matrix that has an inverse is called \emph{non-singular}; a square matrix without an inverse is called \emph{singular}.\\
+\vspace{12pt}
+\textbf{Ex:}
+\[
+\bm{D} =
+\begin{pmatrix}
+3 & 0 & 0\\
+0 & -1 & 0\\
+0 & 0 & 4
+\end{pmatrix}
+\hspace{1cm}
+\bm{D}^{-1} =
+\begin{pmatrix}
+1/3 & 0 & 0\\
+0 & -1 & 0\\
+0 & 0 & 1/4
+\end{pmatrix}
+\]
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Inverse of a Matrix}
+For a $2 \times 2$ matrix we can compute the inverse as
+\[
+\bm{A} =
+\begin{pmatrix}
+a & b\\
+c & d
+\end{pmatrix}
+\hspace{1cm}
+\bm{A}^{-1} = \frac{1}{ad-bc}
+\begin{pmatrix}
+d & -b\\
+-c & a
+\end{pmatrix}
+\]
+If $ad-bc = 0$, then $\bm{A}$ is not invertible.  Note that $ad-bc$ is called the \emph{determinant} of $\bm{A}$, denoted det$(\bm{A})$.
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Inverse of a Matrix}
+\vspace{-3.5cm}
+\textbf{Ex:}  Find the inverse of $\bm{A} = 
+\begin{pmatrix}
+2 & 5\\
+1 & 3
+\end{pmatrix}$\\
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+Properties of Matrix Multiplication:
+\vspace{10pt}
+\begin{itemize}
+\item $\bm{A}(\bm{B}\bm{C}) = (\bm{A}\bm{B})\bm{C}$ (associativity)
+\vspace{5pt}
+\item $\bm{A}(\bm{B} + \bm{C}) = \bm{A}\bm{B} + \bm{A}\bm{C}$ (left distributivity)
+\vspace{5pt}
+\item $(\bm{A} + \bm{B})\bm{C} = \bm{A}\bm{C} + \bm{B}\bm{C}$ (right distributivity)
+\vspace{5pt}
+\item $\bm{I}_r \bm{A} = \underset{(r \times c)}{\bm{A}} = \bm{A}\bm{I}_c$
+\end{itemize}
+\vspace{5pt}
+Matrix multiplication is not commutative.  So, $\bm{A}\bm{B}$ is not necessarily equal to $\bm{B}\bm{A}$.\\ 
+\vspace{10pt}
+For $n \times 1$ vectors $\bm{a}$ and $\bm{b}$:
+$$ (\bm{a} - \bm{b})' (\bm{a} - \bm{b}) = \bm{a'}\bm{a} + \bm{b'}\bm{b} - 2 \bm{a'}\bm{b} $$
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+Properties of the Transpose:
+\vspace{10pt}
+\begin{itemize}
+\item $(\bm{A}')' = \bm{A}$
+\vspace{5pt}
+\item $(c\bm{A})' = c (\bm{A}')$, where $c$ is a scalar
+\vspace{5pt}
+\item $(\bm{A} + \bm{B})' = \bm{A}' + \bm{B}'$
+\vspace{5pt}
+\item $(\bm{A}\bm{B})' = \bm{B}' \bm{A}'$
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}
+Properties of Invertible Matrices:
+\vspace{10pt}
+\begin{itemize}
+\item $(\bm{A}^{-1})^{-1} = \bm{A}$
+\vspace{5pt}
+\item $(c \bm{A})^{-1} = \frac{1}{c} \bm{A}^{-1}$, where $c \neq 0$ is a scalar.
+\vspace{5pt}
+\item If $\bm{A$} and $\bm{B}$ are both $n \times n$ invertible matrices, then $\bm{A}\bm{B}$ is invertible, and  $(\bm{A}\bm{B})^{-1} = \bm{B}^{-1} \bm{A}^{-1}$.
+\vspace{5pt}
+\item If $\bm{A}$ is invertible, then $\bm{A'}$ is invertible and $(\bm{A'})^{-1} = (\bm{A}^{-1})'$.\\
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Matrix Notation for Multiple Linear Regression (MLR)}
+\[
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & x_{11} & x_{12} & \cdots & x_{1p}\\
+1 & x_{21} & x_{22} & \cdots & x_{2p}\\
+\vdots & \vdots & & & \\
+1 & x_{n1} & x_{n2} & \cdots & x_{np}\\
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0\\
+\beta_1\\
+\vdots\\
+\beta_p
+\end{pmatrix}
++
+\begin{pmatrix}
+e_1\\
+e_2\\
+\vdots\\
+e_n
+\end{pmatrix}
+\]
+
+$$\bm{Y} = \bm{X} \bm{\beta} + \bm{e}$$
+
+\begin{itemize}
+\item $\bm{Y}$ is an $n \times 1$ response vector
+\item $\bm{X}$ is an $n \times (p+1)$ design matrix for the predictor variables
+\item $\bm{\beta}$ is a $(p+1) \times 1$ vector of regression parameters
+\item $\bm{e}$ is an $n \times 1$ vector of random errors, assuming $e_i \sim N(0, \sigma^2)$
+\end{itemize}
+\end{frame}
+
+%---------------------------------------------------
+\begin{frame}{Matrix Notation for MLR}
+Let $\bm{x'}_i$ denote the $i^{th}$ row of $\bm{X}$.  Then
+\[
+\underset{1 \times (p + 1)}{\bm{x'}_i} = 
+\begin{pmatrix}
+1 & x_{i1} & x_{i2} & \cdots & x_{ip}
+\end{pmatrix}
+\]
+which allows us to write
+
+$$Y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \cdots + \beta_p x_{ip}  + e_i = \bm{x'}_i \bm{\beta} + e_i$$\\
+\end{frame}
+
+\begin{frame}{Matrix Notation for MLR}
+Let $\bm{\hat{\beta}} = \begin{pmatrix} \hat{\beta}_0 & \hat{\beta}_1 & \cdots & \hat{\beta}_p \end{pmatrix}'$ denote the least squares estimates of the unknown regression parameters $\bm{\beta} = \begin{pmatrix} \beta_0 & \beta_1 & \cdots & \beta_p \end{pmatrix}'$.\\
+\vspace{15pt}
+It can be shown that $\bm{\hat{\beta}} = (\bm{X'X})^{-1} \bm{X}' \bm{Y}$.\\
+\end{frame}
+
+\begin{frame}{Matrix Notation for MLR}
+The vector of fitted (or predicted) values is given by
+
+$$\bm{\hat{Y}} = \bm{X} \bm{\hat{\beta}}$$
+\vspace{5pt}
+
+The vector of residuals is given by
+
+$$\bm{\hat{e}} = \bm{Y} - \bm{\hat{Y}} = \bm{Y} - \bm{X}\bm{\hat{\beta}}$$
+\vspace{5pt}
+$$\bm{\hat{e}} = 
+\begin{pmatrix}
+\hat{e}_1\\
+\hat{e}_2\\
+\vdots\\
+\hat{e}_n\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+y_1\\
+y_2\\
+\vdots\\
+y_n
+\end{pmatrix}
+-
+\begin{pmatrix}
+\hat{y}_1\\
+\hat{y}_2\\
+\vdots\\
+\hat{y}_n\\
+\end{pmatrix}$$
+\end{frame}
+
+
+
+\end{document}

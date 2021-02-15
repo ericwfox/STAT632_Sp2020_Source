@@ -1,0 +1,107 @@
+\documentclass[10pt]{beamer}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{url}
+
+\begin{document}
+
+\begin{frame}
+\large
+Lecture 0\\
+Introduction and Syllabus\\
+STAT 632, Spring 2020
+\end{frame}
+
+\begin{frame}{Course Topics}
+\textbf{Linear Regression}: modeling the relationship between a single continuous response variable $Y$, and one or more explanatory (or predictor) variables $X_1, X_2, \cdots, X_p$.
+\vspace{10pt}
+
+\textbf{Logistic Regression}: modeling the relationship between a single binary response variable $Y$, which takes on values 0 or 1, and one or more explanatory variables $X_1, X_2, \cdots, X_p$.\\
+\vspace{10pt}
+
+The course will cover practical applications to a variety of real data sets, the mathematical theory of the linear and logistic regression model, and computation in R.
+\end{frame}
+
+\begin{frame}{Motivation}
+Regression modeling has several objectives:
+\vspace{5pt}
+\begin{itemize}
+\item Making predictions for future or unknown values of the response variable, and evaluating the uncertainty in those predictions.
+\vspace{5pt}
+\item Assessing the relationship between the response and explanatory variables.
+\vspace{5pt}
+\item Providing insight into the data structure (e.g., checking for unusual or influential observations)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Additional Topics}
+We may also cover several modern statistical modeling techniques related to linear regression:
+\vspace{5pt}
+\begin{itemize}
+\item Regularization methods such as ridge regression and LASSO that are useful when there are many predictor variables ($p \approx n$ or $p > n$).
+\vspace{5pt}
+\item Decision trees and random forest models that are useful when there are many predictor variables with nonlinear relationships.
+\vspace{5pt}
+\item Generalized least squares estimation, which is a method that can be used when the data are autocorrelated (e.g., time series data)
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Grading}
+\begin{itemize}
+\item 40\% Two Midterm Exams (20\% each)
+\item 30\% Homework
+\item 20\% Project Paper 
+\item 10\% Presentation
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\textbf{Exams}: There will be two midterm exams, each worth 20\% of your grade.  There will be no final exam.\\
+%Mention that one exam might be closed-book (allowed 2 pages of notes)
+\vspace{10pt}
+\textbf{Homework}: There will be biweekly homework assignments.  You should receive full credit, or close to full credit, if you put in a reasonable effort, and turn in your work on time.  Also, I may not grade every problem, but I will post solutions on Blackboard.  You are encouraged to use R Markdown for data analysis and coding exercises.  I will drop your lowest scoring homework assignment.\\
+\vspace{10pt}
+\textbf{Project and Presentation}:  For the project you will need to find a data set of interest, and then conduct a regression analysis using that data set.  You will be required to give a presentation on your project during the last two weeks of class.  For the final project you are also encouraged to use a modern method (e.g., random forests, LASSO).
+\end{frame}
+
+\begin{frame}{Textbooks}
+Simon Sheather. \emph{A Modern Approach to Regression with R}, Springer, 2009.\\
+\vspace{4pt}
+Free electronic version: \url{http://library.csueastbay.edu/home}\\
+Data sets and R code: \url{http://gattonweb.uky.edu/sheather/book/}\\
+\vspace{4pt}
+This will be the main textbook for the course.  If you wish, you may buy a hard copy through the CSUEB student store, Amazon, or Springer.
+\vspace{15pt}
+
+James, G., Witten, D., Hastie, T., and Tibshirani, R. \emph{An Introduction to Statistical Learning with Applications in R}. Springer, 2013.\\
+\vspace{4pt}
+Free PDF version: \url{http://www-bcf.usc.edu/~gareth/ISL/}\\
+\vspace{4pt}
+We will reference this textbook when covering statistical learning topics such as cross-validation, LASSO, and random forests.  
+%The book also provides a very accessible introduction to linear and logistic regression.
+\end{frame}
+
+\begin{frame}{Software}
+We will use R and RStudio for data analysis and statistical modeling.  This course assumes some familiarity with computer programming.  We will try to cover all of the following R topics:
+\begin{itemize}
+\item Data visualization and summary statistics (base R and \texttt{ggplot2})
+\item Linear regression modeling with the \texttt{lm()} function
+\item Logistic regression modeling with the \texttt{glm()} function
+\item Random forest modeling with the \texttt{randomForest} package
+\item LASSO and ridge regression with the \texttt{glmnet} package
+\item Report writing and reproducible research (R Markdown, knitr)
+\end{itemize}
+\vspace{5pt}
+\end{frame}
+
+\begin{frame}{Software}
+You are also encouraged to learn LaTeX for mathematical typesetting.  LaTeX can be combined with R using Markdown or knitr.\\
+\begin{itemize}
+\item Download LaTeX: \url{https://www.latex-project.org/}
+\item Resource for learning LaTeX: \url{https://www.overleaf.com/learn/latex/Main_Page}
+\end{itemize}
+\end{frame}
+
+\end{document}

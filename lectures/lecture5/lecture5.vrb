@@ -1,0 +1,14 @@
+\begin{verbatim}
+> summary(lm2)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -2.7533     1.9850  -1.387    0.171
+Hospitals     6.8764     0.4011  17.144   <2e-16 ***
+\end{verbatim}
+\vspace{10pt}
+
+Regression equation for the transformed model:
+$$\widehat{\sqrt{\texttt{MDs}}} = -2.7533 + 6.8764 \, \texttt{Hospitals}$$
+
+We can back-transform to write the model in the original scale of the response.
+$$\widehat{\texttt{MDs}} = (-2.7533 + 6.8764 \, \texttt{Hospitals})^2$$

@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\setlength\parindent{0pt}
+\textbf{Solution to SLR Practice Problem}\\
+
+\begin{enumerate}[(a)]
+\item Describe the association between number of cans of beer and BAC.\\
+Positive linear association.\\
+
+\item What are the explanatory and response variables for the linear regression model?\\
+Explanatory variable: Number of cans of beer\\
+Response variable: BAC\\
+
+\item Write the equation for the least squares line.\\
+$\hat{y} = -0.013 + 0.018x$\\
+
+\item Interpret the slope and the intercept in context.\\
+Slope: An increase in the number of cans of beer by 1 is associated with an increase in BAC by 0.018.\\
+Intercept:  The predicted BAC for someone who had 0 cans of beer is -0.013.  The regression summary also indicates that the intercept term is not significantly different than 0 (see part j).\\
+
+\item What is the predicted BAC for a person that drank 5 cans of beer?\\
+$\hat{y} = -0.013 + 0.018(5) = 0.077$\\
+
+\item A student in this data set drank 9 beers and had a measured BAC of 0.19. Calculate the residual for this student.\\
+$e_i = y_i - \hat{y}_i = 0.19 - [-0.013 + 0.018(9)] = 0.19 - 0.149 = 0.041$\\
+%student 3
+
+\item Interpret the coefficient of determination ($R^2$).\\
+$R^2 = 0.7998$, which means that 79.98\% of the variation in BAC can be explained by the number of cans of beer the student drank ($x$).\\
+
+\item Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol content?  State the null and alternative hypotheses, report the test statistic and $p$-value (from the \texttt{summary()} command), and state your conclusion.\\
+$H_0: \beta_1 = 0$\\
+$H_A: \beta_1 \neq 0$\\
+The test statistic is $t=7.48$ with a $p$-value $<0.001$.  Therefore, we reject $H_0$, and conclude that drinking more cans of beer is associated with an increase in BAC.   
+\clearpage
+
+\item Calculate a 95\% confidence interval for $\beta_1$.\\
+The critical value is given by $t_{0.025; n-2} = \texttt{abs(qt(0.025, 14))} = 2.14$.
+\begin{align*}
+0.018 \pm 2.14(0.0024) \implies (0.013, 0.023) 
+\end{align*}
+We are 95\% confident that $\beta_1$ is between 0.013 and 0.023.\\
+In R:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(openintro)}
+\hlstd{lm1} \hlkwb{<-} \hlkwd{lm}\hlstd{(BAC} \hlopt{~} \hlstd{Beers,} \hlkwc{data} \hlstd{= bac)}
+\hlkwd{confint}\hlstd{(lm1)}
+\end{alltt}
+\begin{verbatim}
+##                   2.5 %     97.5 %
+## (Intercept) -0.03980535 0.01440414
+## Beers        0.01281262 0.02311490
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+\item Do the data provide evidence that the intercept is significantly different than 0?  State the null and alternative hypotheses, report the test statistic and $p$-value (from the \texttt{summary()} command), and state your conclusion.\\
+$H_0: \beta_0 = 0$\\
+$H_A: \beta_0 \neq 0$\\
+The test statistic is $t=-1.005$ with a $p$-value $=0.332 > 0.05$.  Therefore, we do not reject $H_0$, and conclude that the intercept is not significantly different than 0.  This makes sense in context since it is reasonable to assume that a person that drank 0 beers has a BAC of 0.\\
+
+\item Calculate a 95\% confidence interval for $\beta_0$.
+\begin{align*}
+-0.013 \pm 2.14(0.0126) \implies (-0.04, 0.014) 
+\end{align*}
+We are 95\% confident that $\beta_0$ is between -0.04 and 0.014.  Note that 0 is in the interval, which agrees with the hypothesis test.\\
+
+\item Are the conditions for linear regression reasonably satisfied?  In your assessment, comment on the plot of the residuals versus number of cans of beer ($x$), and the QQ plot of the residuals shown below.\\
+Yes.  The trend is linear.  The points in the plot of the residuals versus number of beers ($x$) look randomly scattered, and evenly distributed around 0 (constant variance).  The QQ plot indicates that the residuals are approximately normally distributed.  We can assume independence since the number of beers were assigned randomly to participants.  
+
+\end{enumerate}
+
+
+\end{document}

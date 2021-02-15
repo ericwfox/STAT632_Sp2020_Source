@@ -1,0 +1,11 @@
+For example, below is a QQ plot of the residuals for an SLR model of male weight versus height.  The points follow a straight line in the QQ plot, indicating that the residuals are approximately normal.  One observation is a potential outlier.
+\small
+\begin{verbatim}
+> lm1 <- lm(wgt ~ hgt, data=bdims_males)
+> hist(resid(lm1))
+> qqnorm(resid(lm1))
+> qqline(resid(lm1))
+\end{verbatim}
+\begin{center}
+\includegraphics[scale=0.5]{figure/qqres.pdf}
+\end{center}

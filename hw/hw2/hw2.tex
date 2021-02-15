@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 2}\\
+Due: Friday, February 14\\
+
+\textbf{Reading}: Chapter 3, pp.45--83, from \emph{A Modern Approach to Regression}. (skip Section~3.3.3)\\
+\textbf{Optional Reading:} Chapter 3, pp. 92--99, from \emph{An Introduction to Statistical Learning}.\\
+
+\textbf{Directions}:  Please submit your completed assignment to Blackboard.  For the concept questions, your solutions may be typed (using LaTeX or equation editor in Word), or handwritten and then scanned.  For the data analysis questions, which require R, you must type your solutions.  I suggest using R Markdown and knitting to PDF or HTML.  Include all R code in your answers to each data analysis question.\\
+
+\textbf{Exercise 1}. 
+\begin{enumerate}[(a)]
+\item What are the assumptions for the simple linear regression model?  Describe at least two diagnostics that are commonly used to check these assumptions.  
+\item What does it mean for a point to be an outlier?  For simple linear regression, what rule is commonly used to classify points as outliers?
+\item What does it mean for a point to have high leverage?  For simple linear regression, what rule is commonly used to classify points of high leverage?
+\item For simple linear regression, what are the formulas for the error, $e_i$, residual, $\hat{e}_i$, and standardized residual, $r_i$?  What is $Var(e_i)$ and $Var(\hat{e}_i)$ (just write down the formulas, no derivation necessary)?  Describe two reasons why it is useful to look at a plot of the standardized residuals versus the fitted values.\\
+\end{enumerate}
+
+\textbf{Exercise 2}.  Mark the following as either True or False.  Provide a brief explanation if you marked your answer False.
+\begin{enumerate}[(a)]
+\item A plot of the residuals versus fitted values is especially useful for checking the assumptions linearity and constant variance.
+\item The log transformation is most commonly used to stabilize the variance for count data.
+\item When considering transformations for a simple linear regression model, it is always necessary to transform both the predictor and response variable.
+\item When fitting a simple linear regression model, the most important piece of information is the $R^2$ (coefficient of determination).  An $R^2$ close to 1 always indicates that a straight line is a good fit to the data.
+\item Transformations are useful for linearizing the relationships between the explanatory ($X$) and response ($Y$) variables, and for overcoming problems due to nonconstant variance.\\
+\end{enumerate}
+\clearpage
+
+
+
+%For this question use the \texttt{UN11} data set from the \texttt{alr4} package.  To access the data set, first load the package with the command \texttt{library(alr4)}.  You can read about the data set in the help menu by entering the command \texttt{help(UN11)}.
+
+\textbf{Exercise 3}.\footnote{From Weisberg~S.,\emph{Applied linear regression}, fourth edition, Exercise 2.16, with slight modifications.  The data set \texttt{UN11} was obtained from the \texttt{alr4} package.}  This exercise uses a data set on national statistics obtained from the United Nations, and collected between 2009-2011.  To load the data into R run the following command:
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{UN11} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://ericwfox.github.io/data/UN11.csv"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+The data set contains several variables, including \texttt{ppgdp}, the gross national product per person in US dollars, and \texttt{fertility}, the total fertility rate (number of children per woman).
+\begin{enumerate}[(a)]
+\item Make a scatterplot with \texttt{fertility} on the y-axis and \texttt{ppgdp} on the x-axis.  Explain why we should consider log transformations for this data.
+\item Make a scatterplot of \texttt{log(fertility)} versus \texttt{log(ppgdp)} and add the least squares regression line.  Does the association appear to be reasonably linear? 
+\item Use the \texttt{lm()} function to fit a simple linear regression model with \texttt{log(fertility)} as the response variable, and \texttt{log(ppgdp)} as the explanatory variable.  Use the \texttt{summary()} function to print the results.
+\item Write down the equation for the least squares line.
+\item Interpret the slope of the regression model.
+\item For a locality not in the data with \texttt{ppgdp} = 1000, obtain a point prediction and a 95\% prediction interval for \texttt{log(fertility)}.  If the interval $(a,b)$ is a 95\% prediction interval for \texttt{log(fertility)}, then a 95\% prediction interval for fertility is given by $(\exp(a), \exp(b))$.  Use this results to get a 95\% prediction interval for \texttt{fertility}.
+\item Make a plot of the standardized residuals versus fitted values, and a QQ plot of the standardized residuals.  Comment on whether or not the assumptions for simple linear regression appear to be satisfied.
+\item Which countries are flagged as outliers?  That is, which countries have standardized residuals outside the interval from -2 to 2.  In your view, does it seem necessary to remove any of these points, and then refit the model?\\
+% \item Are there any ``bad leverage" points in your model?
+\end{enumerate}
+
+\textbf{Bonus}. [1 point]  Consider the model $Y_i = \mu + e_i$, where $\mu$ is a parameter representing the population mean, and $e_i \sim N(0, \sigma^2)$ independently for $i=1,\cdots,n$.  The prediction for the response variable is given by $\hat{y} = \bar{y}$, where $\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i$ is the sample mean.  Derive a $1-\alpha$ prediction interval for a single, new value of the response variable.  Is the prediction interval wider or narrower than a $1-\alpha$ confidence interval for the population mean $\mu$?  Assume that the population variance $\sigma^2$ is unknown and needs to be estimated.\\
+
+
+
+% \clearpage
+% \textbf{Exercise 4}.  For this question use the \texttt{salarygov} data set, also from the \texttt{alr4} package.  You can read about the data set in the help menu by entering the command \texttt{?salarygov}.  
+% \begin{enumerate}[(a)]
+% \item Make a scatterplot with \texttt{MaxSalary} on the y-axis and \texttt{Score} on the x-axis, and add the least squares line.  Also make a plot of the residuals versus fitted values.  Explain why we should consider transformations for this data set.
+% \item Make a scatter plot with \texttt{log(MaxSalary)} on the y-axis and \texttt{Score} on the x-axis, and add the least squares line.  Note that it is common practice to log transform salary data.  
+% \item Make a plot of the residual versus fitted values and a QQ plot of the standardized residuals.  Do the assumptions of linearity, constant variance, and normality appear satisfied?
+% %Does the association appear to be reasonably linear after transforming the response?
+% \item Write the equation for the least squares regression line with \texttt{log(MaxSalary)} as the response.  Then back-transform to write the equation in the original scale of the response \texttt{MaxSalary}.
+% 
+% \end{enumerate}
+% \vspace{10pt}
+% 
+% \textbf{Bonus}. (1 point additional credit)  Make a scatter plot with \texttt{MaxSalary} on the y-axis and \texttt{Score} on the x-axis.  Add to your plot the curve corresponding to the transformed fitted values.  (Hint: your plot should look like the one below)
+
+
+
+
+
+
+
+
+
+\end{document}

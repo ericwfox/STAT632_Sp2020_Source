@@ -1,0 +1,15 @@
+\small
+\begin{verbatim}
+> summary(lm2)
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   24.641     15.890   1.551  0.12728
+Baths         26.755      7.699   3.475  0.00107 **
+Size          23.399      8.317   2.813  0.00699 **
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 32.57 on 50 degrees of freedom
+Multiple R-squared:  0.4058,	Adjusted R-squared:  0.382
+F-statistic: 17.07 on 2 and 50 DF,  p-value: 2.233e-06
+\end{verbatim}

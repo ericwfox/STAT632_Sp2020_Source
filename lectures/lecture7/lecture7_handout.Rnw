@@ -1,0 +1,57 @@
+\documentclass[11pt, fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, Lecture 7 Handout}\\
+
+The Child Health and Development Studies investigate a range of topics. One study considered all pregnancies between 1960 and 1967 among women in the Kaiser Foundation Health Plan in the San Francisco East Bay area.  The response variable of interest is \texttt{bwt}, the birthweight of the infants in ounces.  The explanatory variables are \texttt{gestation}, the length of gestation, in days; \texttt{parity}, a dummy variable which is 0 if the child is first born, and 1 otherwise; \texttt{age}, the mother's age in years; \texttt{height}, the mother's height in inches; \texttt{weight}, the mother's weight in pounds; and \texttt{smoke}, a dummy variable which is 0 if the mother is a nonsmoker, and 1 if the mother smokes.  A regression summary from fitting this model in R is shown below.
+
+<<size="small", eval=T, echo=T, message=F>>=
+library(openintro)
+head(babies, n=3)
+
+lm1 <-  lm(bwt ~ gestation + parity + age + height + weight + smoke, data = babies)
+summary(lm1)
+@
+\clearpage
+
+\begin{enumerate}[(a)]
+\item Write the equation for the multiple linear regression model.
+\vspace{1.5cm}
+\item Interpret the coefficients for \texttt{gestation} and \texttt{smoke}.
+\vspace{4.5cm}
+\item For which predictor(s) do we reject the null hypothesis $H_0: \beta_i = 0$?   
+% \item Calculate the residual for the first observation in the data set.
+\vspace{1.5cm}
+\item Calculate a 95\% confidence interval for the coefficient of \texttt{gestation}.  Note that $n=1174$.
+\vspace{3cm}
+\item Interpret the coefficient of determination ($R^2$)?
+\vspace{2cm}
+\item The following is a coefficient table for a simple linear regression model  with \texttt{bwt} as the response and \texttt{height} as the predictor.  Why is the coefficient for \texttt{height} presented below different than the multiple linear regression model?
+\begin{verbatim}
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  27.6810    13.0298   2.124   0.0338 *  
+height        1.4334     0.2033   7.052 2.97e-12 ***
+\end{verbatim}
+\end{enumerate}
+
+<<eval=F, echo=F>>=
+slm <- lm(bwt ~ height, data=babies)
+summary(slm)
+@
+
+
+
+\end{document}

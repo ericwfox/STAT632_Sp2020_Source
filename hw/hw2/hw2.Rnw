@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\textbf{STAT 632, HW 2}\\
+Due: Friday, February 14\\
+
+\textbf{Reading}: Chapter 3, pp.45--83, from \emph{A Modern Approach to Regression}. (skip Section~3.3.3)\\
+\textbf{Optional Reading:} Chapter 3, pp. 92--99, from \emph{An Introduction to Statistical Learning}.\\
+
+\textbf{Directions}:  Please submit your completed assignment to Blackboard.  For the concept questions, your solutions may be typed (using LaTeX or equation editor in Word), or handwritten and then scanned.  For the data analysis questions, which require R, you must type your solutions.  I suggest using R Markdown and knitting to PDF or HTML.  Include all R code in your answers to each data analysis question.\\
+
+\textbf{Exercise 1}. 
+\begin{enumerate}[(a)]
+\item What are the assumptions for the simple linear regression model?  Describe at least two diagnostics that are commonly used to check these assumptions.  
+\item What does it mean for a point to be an outlier?  For simple linear regression, what rule is commonly used to classify points as outliers?
+\item What does it mean for a point to have high leverage?  For simple linear regression, what rule is commonly used to classify points of high leverage?
+\item For simple linear regression, what are the formulas for the error, $e_i$, residual, $\hat{e}_i$, and standardized residual, $r_i$?  What is $Var(e_i)$ and $Var(\hat{e}_i)$ (just write down the formulas, no derivation necessary)?  Describe two reasons why it is useful to look at a plot of the standardized residuals versus the fitted values.\\
+\end{enumerate}
+
+\textbf{Exercise 2}.  Mark the following as either True or False.  Provide a brief explanation if you marked your answer False.
+\begin{enumerate}[(a)]
+\item A plot of the residuals versus fitted values is especially useful for checking the assumptions linearity and constant variance.
+\item The log transformation is most commonly used to stabilize the variance for count data.
+\item When considering transformations for a simple linear regression model, it is always necessary to transform both the predictor and response variable.
+\item When fitting a simple linear regression model, the most important piece of information is the $R^2$ (coefficient of determination).  An $R^2$ close to 1 always indicates that a straight line is a good fit to the data.
+\item Transformations are useful for linearizing the relationships between the explanatory ($X$) and response ($Y$) variables, and for overcoming problems due to nonconstant variance.\\
+\end{enumerate}
+\clearpage
+
+<<eval=F, echo=F>>=
+# library(alr4)
+# UN <- data.frame(
+#   country = row.names(UN11),
+#   region = UN11$region,
+#   fertility = UN11$fertility,
+#   ppgdp = UN11$ppgdp,
+#   lifeExpF = UN11$lifeExpF,
+#   pctUrban = UN11$pctUrban
+# )
+# write.csv(UN, file="UN11.csv", row.names = FALSE)
+
+UN11 <- read.csv("https://ericwfox.github.io/data/UN11.csv", row.names = T)
+@
+
+%For this question use the \texttt{UN11} data set from the \texttt{alr4} package.  To access the data set, first load the package with the command \texttt{library(alr4)}.  You can read about the data set in the help menu by entering the command \texttt{help(UN11)}.
+
+\textbf{Exercise 3}.\footnote{From Weisberg~S.,\emph{Applied linear regression}, fourth edition, Exercise 2.16, with slight modifications.  The data set \texttt{UN11} was obtained from the \texttt{alr4} package.}  This exercise uses a data set on national statistics obtained from the United Nations, and collected between 2009-2011.  To load the data into R run the following command:
+<<>>=
+UN11 <- read.csv("https://ericwfox.github.io/data/UN11.csv")
+@
+The data set contains several variables, including \texttt{ppgdp}, the gross national product per person in US dollars, and \texttt{fertility}, the total fertility rate (number of children per woman).
+\begin{enumerate}[(a)]
+\item Make a scatterplot with \texttt{fertility} on the y-axis and \texttt{ppgdp} on the x-axis.  Explain why we should consider log transformations for this data.
+\item Make a scatterplot of \texttt{log(fertility)} versus \texttt{log(ppgdp)} and add the least squares regression line.  Does the association appear to be reasonably linear? 
+\item Use the \texttt{lm()} function to fit a simple linear regression model with \texttt{log(fertility)} as the response variable, and \texttt{log(ppgdp)} as the explanatory variable.  Use the \texttt{summary()} function to print the results.
+\item Write down the equation for the least squares line.
+\item Interpret the slope of the regression model.
+\item For a locality not in the data with \texttt{ppgdp} = 1000, obtain a point prediction and a 95\% prediction interval for \texttt{log(fertility)}.  If the interval $(a,b)$ is a 95\% prediction interval for \texttt{log(fertility)}, then a 95\% prediction interval for fertility is given by $(\exp(a), \exp(b))$.  Use this results to get a 95\% prediction interval for \texttt{fertility}.
+\item Make a plot of the standardized residuals versus fitted values, and a QQ plot of the standardized residuals.  Comment on whether or not the assumptions for simple linear regression appear to be satisfied.
+\item Which countries are flagged as outliers?  That is, which countries have standardized residuals outside the interval from -2 to 2.  In your view, does it seem necessary to remove any of these points, and then refit the model?\\
+% \item Are there any ``bad leverage" points in your model?
+\end{enumerate}
+
+\textbf{Bonus}. [1 point]  Consider the model $Y_i = \mu + e_i$, where $\mu$ is a parameter representing the population mean, and $e_i \sim N(0, \sigma^2)$ independently for $i=1,\cdots,n$.  The prediction for the response variable is given by $\hat{y} = \bar{y}$, where $\bar{y} = \frac{1}{n} \sum_{i=1}^n y_i$ is the sample mean.  Derive a $1-\alpha$ prediction interval for a single, new value of the response variable.  Is the prediction interval wider or narrower than a $1-\alpha$ confidence interval for the population mean $\mu$?  Assume that the population variance $\sigma^2$ is unknown and needs to be estimated.\\
+
+
+
+
+\end{document}

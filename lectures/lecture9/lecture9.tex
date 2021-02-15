@@ -1,0 +1,211 @@
+\documentclass[11pt, fleqn]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\setlength\parindent{0pt}
+
+\begin{center}
+\textbf{Lecture 9: Least Squares Estimation using Matrices}\\
+\textbf{STAT 632, Spring 2020}\\
+\hrulefill
+\end{center}
+
+\textbf{Mathematical Preliminaries}\\
+Let 
+\[
+\bm{\theta} = 
+\begin{pmatrix}
+\theta_1 \\
+\theta_2 \\
+\vdots \\
+\theta_n
+\end{pmatrix}
+\]
+be an $n \times 1$ vector, and $f(\bm{\theta})$ a scalar function of $\bm{\theta}$.  The derivative of $f(\bm{\theta})$ with respect to the vector $\bm{\theta}$ is defined as
+\[
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = 
+\begin{pmatrix}
+\frac{\partial f(\bm{\theta})}{\partial \theta_1}\\
+\frac{\partial f(\bm{\theta})}{\partial \theta_2}\\
+\vdots\\
+\frac{\partial f(\bm{\theta})}{\partial \theta_n}\\
+\end{pmatrix}
+\]
+
+Recall from calculus two important rules of differentiation for a scalar $a$ and variable $x$:
+\begin{enumerate}
+\item $\frac{d}{dx} ax = a$
+\item $\frac{d}{dx} a x^2 = 2ax$
+\end{enumerate}
+
+There are similar rules when taking a derivative with respect to a vector:
+\begin{enumerate}
+\item Let $\bm{c'} = \begin{pmatrix} c_1 & c_2 & \cdots & c_n\end{pmatrix}$ and $f(\bm{\theta}) = \bm{c'} \bm{\theta}$, then it follows that
+\begin{align*}
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = \bm{c}
+\end{align*}
+
+\item Let $\bm{A}$ be an $n \times n$ symmetric matrix and $f(\bm{\theta}) = \bm{\theta'} \bm{A} \bm{\theta}$, then it follows that
+\begin{align*}
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = 2 \bm{A \theta}
+\end{align*}
+\end{enumerate}
+\textbf{Your turn:}  Prove the first rule for vector differentiation.
+
+\clearpage
+
+Recall the matrix notation for multiple linear regression (MLR):
+\begin{align*}
+\bm{Y} = \bm{X}\bm{\beta} + \bm{e}
+\end{align*}
+\textbf{Your turn:} What are the dimensions of each term?\\
+\vspace{2cm}
+
+For MLR, the residual sum of squares, as a function of the vector $\bm{\beta}$, can be written in matrix notation as 
+\begin{align*}
+R(\bm{\beta}) = (\bm{Y} - \bm{X} \bm{\beta})' (\bm{Y} - \bm{X} \bm{\beta})
+\end{align*}
+
+Expanding this equation out gives:
+\begin{align*}
+R(\bm{\beta}) &= \bm{Y'Y} - \bm{Y'X \beta} - (\bm{X\beta})' \bm{Y} + (\bm{X \beta})'(\bm{X \beta})\\
+&= \bm{Y'Y} - \bm{Y'X \beta} - \bm{\beta'X'Y} + \bm{\beta' X' X \beta}\\
+& = \bm{Y'Y} - 2 \bm{Y' X \beta} + \bm{\beta' X' X \beta}
+\end{align*}
+\textbf{Your turn:} Argue that $\bm{Y'X \beta} = \bm{\beta'X'Y}$, so the terms can be combined.\\
+\vspace{3cm}
+
+Next, to find the least squares estimates, we minimize $R(\bm{\beta})$ by taking the derivative, with respect to the vector $\bm{\beta}$, and setting the derivative equal to zero.  Since $\bm{X'X}$ is a symmetric matrix, we can use the two rules for vector differentiation to accomplish this.
+\begin{align*}
+\frac{\partial R(\bm{\beta})}{\partial \bm{\beta}} 
+= \bm{0} - 2\bm{X'Y} + 2\bm{X'X \beta}\\
+\end{align*}
+Setting the derivative equal to zero gives the \textbf{normal equations} for MLR:
+\begin{align*}
+\bm{X'X \beta} = \bm{X'Y}
+\end{align*}
+Assuming that $\bm{X'X}$ is invertible, the vector of least squares estimates is given by
+\begin{align*}
+\bm{\hat{\beta}} = (\bm{X'X})^{-1}\bm{X'Y}
+\end{align*}
+\clearpage
+Note that $\bm{X'X}$ is not invertible (singular) when the columns of $\bm{X}$ are \textbf{linearly dependent}.  That is, an explanatory variable can be expressed as a linear combination of other explanatory variables in the model.  For observational data, this is usually caused by some oversight.  Here are some examples: 
+\begin{itemize}
+\item A person's weight is measured in both pounds and kilos and both explanatory variables are included in the model.
+\item For each student we record their verbal SAT score, math SAT score, and total SAT score, and then include all three variables in the model.  
+\end{itemize}
+% define linearly dependent in class
+
+\hrulefill
+\vspace{5pt}
+
+Using the menu pricing data set (lecture 7), the code below demonstrates how to manually compute the vector $\bm{\hat{\beta}} = (\bm{X'X})^{-1}\bm{X'Y}$ of least squares estimates.
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{nyc} \hlkwb{<-} \hlkwd{read.csv}\hlstd{(}\hlstr{"https://ericwfox.github.io/data/nyc.csv"}\hlstd{)}
+
+\hlcom{# response vector}
+\hlstd{Y} \hlkwb{<-} \hlkwd{matrix}\hlstd{(nyc}\hlopt{$}\hlstd{Price,} \hlkwc{ncol}\hlstd{=}\hlnum{1}\hlstd{)}
+
+\hlcom{# design matrix}
+\hlstd{X} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlkwc{Intercept} \hlstd{=} \hlnum{1}\hlstd{, nyc[,}\hlkwd{c}\hlstd{(}\hlstr{"Food"}\hlstd{,} \hlstr{"Decor"}\hlstd{,} \hlstr{"East"}\hlstd{)])}
+\hlstd{X} \hlkwb{<-} \hlkwd{as.matrix}\hlstd{(X)}
+\hlkwd{rownames}\hlstd{(X)} \hlkwb{<-} \hlstd{nyc}\hlopt{$}\hlstd{Restaurant}
+\hlstd{X[}\hlnum{1}\hlopt{:}\hlnum{4}\hlstd{,]}
+\end{alltt}
+\begin{verbatim}
+##                     Intercept Food Decor East
+## Daniella Ristorante         1   22    18    0
+## Tello's Ristorante          1   20    19    0
+## Biricchino                  1   21    13    0
+## Bottino                     1   20    20    0
+\end{verbatim}
+\begin{alltt}
+\hlcom{# manually calculate least squares estimates}
+\hlstd{betaHat} \hlkwb{<-} \hlkwd{solve}\hlstd{(}\hlkwd{t}\hlstd{(X)} \hlopt{%*%} \hlstd{X)} \hlopt{%*%} \hlkwd{t}\hlstd{(X)} \hlopt{%*%} \hlstd{Y}
+\hlstd{betaHat}
+\end{alltt}
+\begin{verbatim}
+##                 [,1]
+## Intercept -24.026880
+## Food        1.536346
+## Decor       1.909373
+## East        2.067013
+\end{verbatim}
+\begin{alltt}
+\hlcom{# compare with lm()}
+\hlstd{lm1} \hlkwb{<-} \hlkwd{lm}\hlstd{(Price} \hlopt{~} \hlstd{Food} \hlopt{+} \hlstd{Decor} \hlopt{+} \hlstd{East,} \hlkwc{data}\hlstd{=nyc)}
+\hlkwd{coef}\hlstd{(lm1)}
+\end{alltt}
+\begin{verbatim}
+## (Intercept)        Food       Decor        East 
+##  -24.026880    1.536346    1.909373    2.067013
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+
+
+
+
+\end{document}

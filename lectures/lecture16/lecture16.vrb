@@ -1,0 +1,24 @@
+We can also use the \texttt{step()} function to select a model using the BIC by specifying the argument \texttt{k=log(n)} (note by default \texttt{k=2} which specifies the penalty for the AIC).  When using the BIC, 8 predictors are selected (less than AIC).
+\scriptsize
+\begin{verbatim}
+> n <- nrows(Hitters2)
+> lm3 <- step(lm_full, k=log(n))
+> summary(lm3)
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept)  117.15204   65.07016   1.800 0.072985 .
+AtBat         -2.03392    0.52282  -3.890 0.000128 ***
+Hits           6.85491    1.65215   4.149 4.56e-05 ***
+Walks          6.44066    1.52212   4.231 3.25e-05 ***
+CRuns          0.70454    0.24869   2.833 0.004981 **
+CRBI           0.52732    0.18861   2.796 0.005572 **
+CWalks        -0.80661    0.26395  -3.056 0.002483 **
+DivisionW   -123.77984   39.28749  -3.151 0.001824 **
+PutOuts        0.27539    0.07431   3.706 0.000259 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 314.7 on 254 degrees of freedom
+Multiple R-squared:  0.5281,	Adjusted R-squared:  0.5133
+F-statistic: 35.54 on 8 and 254 DF,  p-value: < 2.2e-16
+\end{verbatim}

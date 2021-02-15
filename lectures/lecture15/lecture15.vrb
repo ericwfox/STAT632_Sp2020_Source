@@ -1,0 +1,7 @@
+\frametitle{Your turn}
+Consider the New York City restaurant price data:
+\begin{verbatim}
+nyc <- read.csv("https://ericwfox.github.io/data/nyc.csv")
+lm2 <- lm(Price ~ Food + Decor + East, data=nyc)
+\end{verbatim}
+Use the \texttt{boxcox()} function to plot the log-likelihood and find a confidence interval for $\lambda$.  Based on these results, does it seem necessary to transform the response?

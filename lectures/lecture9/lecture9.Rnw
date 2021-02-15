@@ -1,0 +1,138 @@
+\documentclass[11pt, fleqn]{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{enumerate}
+\usepackage{fullpage}
+
+
+\begin{document}
+\setlength\parindent{0pt}
+
+\begin{center}
+\textbf{Lecture 9: Least Squares Estimation using Matrices}\\
+\textbf{STAT 632, Spring 2020}\\
+\hrulefill
+\end{center}
+
+\textbf{Mathematical Preliminaries}\\
+Let 
+\[
+\bm{\theta} = 
+\begin{pmatrix}
+\theta_1 \\
+\theta_2 \\
+\vdots \\
+\theta_n
+\end{pmatrix}
+\]
+be an $n \times 1$ vector, and $f(\bm{\theta})$ a scalar function of $\bm{\theta}$.  The derivative of $f(\bm{\theta})$ with respect to the vector $\bm{\theta}$ is defined as
+\[
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = 
+\begin{pmatrix}
+\frac{\partial f(\bm{\theta})}{\partial \theta_1}\\
+\frac{\partial f(\bm{\theta})}{\partial \theta_2}\\
+\vdots\\
+\frac{\partial f(\bm{\theta})}{\partial \theta_n}\\
+\end{pmatrix}
+\]
+
+Recall from calculus two important rules of differentiation for a scalar $a$ and variable $x$:
+\begin{enumerate}
+\item $\frac{d}{dx} ax = a$
+\item $\frac{d}{dx} a x^2 = 2ax$
+\end{enumerate}
+
+There are similar rules when taking a derivative with respect to a vector:
+\begin{enumerate}
+\item Let $\bm{c'} = \begin{pmatrix} c_1 & c_2 & \cdots & c_n\end{pmatrix}$ and $f(\bm{\theta}) = \bm{c'} \bm{\theta}$, then it follows that
+\begin{align*}
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = \bm{c}
+\end{align*}
+
+\item Let $\bm{A}$ be an $n \times n$ symmetric matrix and $f(\bm{\theta}) = \bm{\theta'} \bm{A} \bm{\theta}$, then it follows that
+\begin{align*}
+\frac{\partial f(\bm{\theta})}{\partial \bm{\theta}} = 2 \bm{A \theta}
+\end{align*}
+\end{enumerate}
+\textbf{Your turn:}  Prove the first rule for vector differentiation.
+
+\clearpage
+
+Recall the matrix notation for multiple linear regression (MLR):
+\begin{align*}
+\bm{Y} = \bm{X}\bm{\beta} + \bm{e}
+\end{align*}
+\textbf{Your turn:} What are the dimensions of each term?\\
+\vspace{2cm}
+
+For MLR, the residual sum of squares, as a function of the vector $\bm{\beta}$, can be written in matrix notation as 
+\begin{align*}
+R(\bm{\beta}) = (\bm{Y} - \bm{X} \bm{\beta})' (\bm{Y} - \bm{X} \bm{\beta})
+\end{align*}
+
+Expanding this equation out gives:
+\begin{align*}
+R(\bm{\beta}) &= \bm{Y'Y} - \bm{Y'X \beta} - (\bm{X\beta})' \bm{Y} + (\bm{X \beta})'(\bm{X \beta})\\
+&= \bm{Y'Y} - \bm{Y'X \beta} - \bm{\beta'X'Y} + \bm{\beta' X' X \beta}\\
+& = \bm{Y'Y} - 2 \bm{Y' X \beta} + \bm{\beta' X' X \beta}
+\end{align*}
+\textbf{Your turn:} Argue that $\bm{Y'X \beta} = \bm{\beta'X'Y}$, so the terms can be combined.\\
+\vspace{3cm}
+
+Next, to find the least squares estimates, we minimize $R(\bm{\beta})$ by taking the derivative, with respect to the vector $\bm{\beta}$, and setting the derivative equal to zero.  Since $\bm{X'X}$ is a symmetric matrix, we can use the two rules for vector differentiation to accomplish this.
+\begin{align*}
+\frac{\partial R(\bm{\beta})}{\partial \bm{\beta}} 
+= \bm{0} - 2\bm{X'Y} + 2\bm{X'X \beta}\\
+\end{align*}
+Setting the derivative equal to zero gives the \textbf{normal equations} for MLR:
+\begin{align*}
+\bm{X'X \beta} = \bm{X'Y}
+\end{align*}
+Assuming that $\bm{X'X}$ is invertible, the vector of least squares estimates is given by
+\begin{align*}
+\bm{\hat{\beta}} = (\bm{X'X})^{-1}\bm{X'Y}
+\end{align*}
+\clearpage
+Note that $\bm{X'X}$ is not invertible (singular) when the columns of $\bm{X}$ are \textbf{linearly dependent}.  That is, an explanatory variable can be expressed as a linear combination of other explanatory variables in the model.  For observational data, this is usually caused by some oversight.  Here are some examples: 
+\begin{itemize}
+\item A person's weight is measured in both pounds and kilos and both explanatory variables are included in the model.
+\item For each student we record their verbal SAT score, math SAT score, and total SAT score, and then include all three variables in the model.  
+\end{itemize}
+% define linearly dependent in class
+
+\hrulefill
+\vspace{5pt}
+
+Using the menu pricing data set (lecture 7), the code below demonstrates how to manually compute the vector $\bm{\hat{\beta}} = (\bm{X'X})^{-1}\bm{X'Y}$ of least squares estimates.
+
+<<>>=
+nyc <- read.csv("https://ericwfox.github.io/data/nyc.csv")
+
+# response vector
+Y <- matrix(nyc$Price, ncol=1)
+
+# design matrix
+X <- cbind(Intercept = 1, nyc[,c("Food", "Decor", "East")])
+X <- as.matrix(X)
+rownames(X) <- nyc$Restaurant
+X[1:4,]
+
+# manually calculate least squares estimates
+betaHat <- solve(t(X) %*% X) %*% t(X) %*% Y
+betaHat
+
+# compare with lm()
+lm1 <- lm(Price ~ Food + Decor + East, data=nyc)
+coef(lm1)
+@
+
+
+
+
+
+\end{document}

@@ -1,0 +1,12 @@
+\frametitle{}
+We can also interpret a confidence interval for the slope $\beta_1$.
+
+\begin{verbatim}
+> confint(lm1)
+                2.5 %   97.5 %
+(Intercept) 41.261713 44.48048
+cond01       8.411621 13.38754
+\end{verbatim}
+\vspace{10pt}
+
+We are 95\% confident that the average price of a new game is between \$8.41 and \$13.39 more than a used game.

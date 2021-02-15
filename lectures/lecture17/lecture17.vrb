@@ -1,0 +1,20 @@
+\frametitle{Example}
+In R, the estimate for the logit can be obtained with the command
+\begin{verbatim}
+> new_x <- data.frame(BA = 31.4)
+> predict(glm1, newdata = new_x)
+         1
+-0.7970077
+\end{verbatim}
+\vspace{10pt}
+
+The estimate for the probability can be obtained with the command
+\begin{verbatim}
+> new_x <- data.frame(BA = 31.4)
+> predict(glm1, newdata = new_x, type="response")
+       1
+0.310666
+\end{verbatim}
+\vspace{10pt}
+
+Any difference from the manual calculations are due to rounding.
